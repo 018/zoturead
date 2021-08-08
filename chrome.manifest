@@ -1,0 +1,7 @@
+content zoterouread chrome/content/
+
+skin    zoterouread  default chrome/skin/default/
+locale  zoterouread  en-US   chrome/locale/en-US/
+locale  zoterouread  zh-CN   chrome/locale/zh-CN/
+
+overlay chrome://zotero/content/zoteroPane.xul chrome://zoterouread/content/overlay.xul

@@ -1,0 +1,54 @@
+<!ENTITY zotero.uread.label "今日优读">
+<!ENTITY zotero.uread.embody.label "收录">
+<!ENTITY zotero.uread.refresh.label "刷新">
+<!ENTITY zotero.uread.openaschrome.label "Chrome打开">
+<!ENTITY zotero.uread.quickview.label "快速查看">
+<!ENTITY zotero.uread.clcinfo.label "中图分类信息">
+<!ENTITY zotero.uread.subjectinfo.label "学科信息">
+<!ENTITY zotero.uread.authorinfo.label "作者信息">
+<!ENTITY zotero.uread.publisherinfo.label "出版社信息">
+<!ENTITY zotero.uread.translate.label "转化为今日优读">
+<!ENTITY zotero.uread.restoretranslate.label "还原转化">
+<!ENTITY zotero.uread.catalogue.compare.label "目录对比">
+<!ENTITY zotero.uread.catalogue.compare.add.label "添加书籍">
+<!ENTITY zotero.uread.catalogue.compare.start.label "开始目录对比">
+
+<!ENTITY zotero.uread.search.label "搜索">
+<!ENTITY zotero.uread.search.uread.label "今日优读">
+<!ENTITY zotero.uread.search.isbn.label "搜索ISBN">
+<!ENTITY zotero.uread.search.title.label "搜索书名">
+<!ENTITY zotero.uread.search.author.label "搜索作者">
+<!ENTITY zotero.uread.search.series.label "搜索系列">
+<!ENTITY zotero.uread.search.zotero.label "Zotero">
+<!ENTITY zotero.uread.search.douban.label "豆瓣">
+<!ENTITY zotero.uread.search.superlib.label "全图书馆参考咨询联盟">
+<!ENTITY zotero.uread.search.jd.label "京东">
+<!ENTITY zotero.uread.search.dangdang.label "当当">
+<!ENTITY zotero.uread.search.baidu.label "百度">
+<!ENTITY zotero.uread.search.google.label "谷歌">
+
+<!ENTITY zotero.uread.tools.label "工具">
+<!ENTITY zotero.uread.expandSelectedRows.label "展开">
+<!ENTITY zotero.uread.collapseSelectedRows.label "收起">
+<!ENTITY zotero.uread.clearup.label "整理">
+<!ENTITY zotero.uread.clearup.author.label "作者(整理成类似 [美]格林·哈姆(Green Hamm) 的格式)">
+<!ENTITY zotero.uread.clearup.extra1.label "其他(去掉Translators: _:n...)">
+<!ENTITY zotero.uread.clearup.extra2.label "其他(去掉ZSCC: NoCitationData[s0])">
+<!ENTITY zotero.uread.clearup.tags.label "清空自动标签(非自定义标签)">
+<!ENTITY zotero.uread.clearup.title.label "标题(全角括号转为半角)">
+<!ENTITY zotero.uread.clearup.abstractnote.label "摘要(•转为·)">
+<!ENTITY zotero.uread.clearup.clearupall.label "以上所有">
+<!ENTITY zotero.uread.fixclc.label "修复中图分类号">
+<!ENTITY zotero.uread.fixsubject.label "修复学科号">
+<!ENTITY zotero.uread.archive.label "归档">
+<!ENTITY zotero.uread.location.label "定位">
+
+<!ENTITY zotero.uread.initCollection.label "初始化学科目录结构">
+<!ENTITY zotero.uread.selectnoncollection.label "选中未归档条目">
+
+<!ENTITY zotero.uread.updatetranslator.label "更新Translator">
+<!ENTITY zotero.uread.localupdatetranslator.label "通过本地">
+<!ENTITY zotero.uread.zoteroupdatetranslator.label "通过Zotero最新官方">
+<!ENTITY zotero.uread.dougsocietyupdatetranslator.label "通过道格学社">
+<!ENTITY zotero.uread.ureadupdatetranslator.label "通过今日优读">
+<!ENTITY zotero.uread.resettranslator.label "重置到安装时">

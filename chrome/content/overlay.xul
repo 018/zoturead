@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://zoterouread/locale/overlay.dtd">
+
+<overlay
+    id="zoterouread-overlay"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <stringbundleset>
+        <stringbundle
+            id="zoterouread-bundle"
+            src="chrome://zoterouread/locale/uread.properties"/>
+    </stringbundleset>
+
+    <script type="application/x-javascript" src="chrome://zoterouread/content/site.js"/>
+    <script type="application/x-javascript" src="chrome://zoterouread/content/searcher.js"/>
+    <script type="application/x-javascript" src="chrome://zoterouread/content/tools.js"/>
+    <script type="application/x-javascript" src="chrome://zoterouread/content/collection.js"/>
+    <script type="application/x-javascript" src="chrome://zoterouread/content/plugin.js"/>
+    <script type="application/x-javascript" src="chrome://zoterouread/content/zoturead.js"/>
+
+    <popup id="zotero-itemmenu">
+        <menuseparator />
+        <menu id="zotero-itemmenu-uread" label="&zotero.uread.label;">
+            <menupopup id="zotero-itemmenu-uread-menupopup">
+                <menuitem
+                    id="zotero-itemmenu-uread-embody"
+                    class="single-select-book"
+                    label="&zotero.uread.embody.label;"
+                    oncommand="Zotero.uRead.Site.embody()"/>
+                <menuitem
+                    id="zotero-itemmenu-uread-refresh"
+                    label="&zotero.uread.refresh.label;"
+                    oncommand="Zotero.uRead.Site.refresh()"/>
+                <!--<menuitem
+                    id="zotero-itemmenu-uread-quickview"
+                    label="&zotero.uread.quickview.label;"
+                    class="single-select-book"
+                    oncommand="Zotero.uRead.Site.quickview()"/>-->
+                <menuitem
+                    id="zotero-itemmenu-uread-openaschrome"
+                    class="single-select-book"
+                    label="&zotero.uread.openaschrome.label;"
+                    oncommand="Zotero.uRead.Site.openaschrome()"/>
+
+                <menuseparator id="zotero-itemmenu-uread-separator0"/>
+
+                <menuitem
+                    id="zotero-itemmenu-uread-clcinfo"
+                    class="single-select-book"
+                    label="&zotero.uread.clcinfo.label;"
+                    oncommand="Zotero.uRead.Site.clcinfo()"/>
+                <menuitem
+                    id="zotero-itemmenu-uread-subjectinfo"
+                    class="single-select-book"
+                    label="&zotero.uread.subjectinfo.label;"
+                    oncommand="Zotero.uRead.Site.subjectinfo()"/>
+                <menuitem
+                    id="zotero-itemmenu-uread-publisherinfo"
+                    class="single-select-book"
+                    label="&zotero.uread.publisherinfo.label;"
+                    oncommand="Zotero.uRead.Site.publisherinfo()"/>
+
+                <menuseparator id="zotero-itemmenu-uread-separator1"/>
+
+                <menuitem
+                    id="zotero-itemmenu-uread-translate"
+                    class="single-select-book"
+                    label="&zotero.uread.translate.label;"
+                    oncommand="Zotero.uRead.Site.translate()"/>
+                <menuitem
+                    id="zotero-itemmenu-uread-restoretranslate"
+                    class="single-select-book"
+                    label="&zotero.uread.restoretranslate.label;"
+                    oncommand="Zotero.uRead.Site.restoretranslate()"/>
+
+                <menuseparator id="zotero-itemmenu-uread-separator6"/>
+
+                <!--<menu id="zotero-itemmenu-uread-catalogue-compare" label="&zotero.uread.catalogue.compare.label;">
+                    <menupopup id="zotero-itemmenu-uread-catalogue-compare-menupopup">
+                    </menupopup>
+                </menu>-->
+                <menuitem
+                    id="zotero-itemmenu-uread-catalogue-compare.add"
+                    label="&zotero.uread.catalogue.compare.add.label;"
+                    oncommand="Zotero.uRead.Site.addCatalogueCompare()"/>
+                <menuitem
+                    id="zotero-itemmenu-uread-catalogue-compare.add"
+                    label="&zotero.uread.catalogue.compare.start.label;"
+                    oncommand="Zotero.uRead.Site.startCatalogueCompare()"/>
+
+                <menuseparator />
+
+                <menuitem
+                    id="zotero-itemmenu-uread-home"
+                    label="&zotero.uread.label;"
+                    oncommand="Zotero.uRead.Site.home()"/>
+            </menupopup>
+        </menu>
+
+        <menu id="zotero-itemmenu-uread-search" class="single-select-book" label="&zotero.uread.search.label;">
+            <menupopup id="zotero-itemmenu-uread-search-menupopup">
+                <menu id="zotero-itemmenu-uread-search-uread" class="single-select-book" label="&zotero.uread.search.uread.label;">
+                    <menupopup id="zotero-itemmenu-uread-search-uread-menupopup">
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-uread-isbn"
+                            class="isbn"
+                            label="&zotero.uread.search.isbn.label;"
+                            oncommand="Zotero.uRead.Searcher.search('uread', 'ISBN')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-uread-title"
+                            class="title"
+                            label="&zotero.uread.search.title.label;"
+                            oncommand="Zotero.uRead.Searcher.search('uread', 'title')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-uread-series"
+                            class="series"
+                            label="&zotero.uread.search.series.label;"
+                            oncommand="Zotero.uRead.Searcher.search('uread', 'series')"/>
+                    </menupopup>
+                </menu>
+                <menu id="zotero-itemmenu-uread-search-zotero" class="single-select-book" label="&zotero.uread.search.zotero.label;">
+                    <menupopup id="zotero-itemmenu-uread-search-zotero-menupopup">
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-zotero-title"
+                            class="title"
+                            label="&zotero.uread.search.title.label;"
+                            oncommand="Zotero.uRead.Searcher.search('zotero', 'title')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-zotero-series"
+                            class="series"
+                            label="&zotero.uread.search.series.label;"
+                            oncommand="Zotero.uRead.Searcher.search('zotero', 'series')"/>
+                    </menupopup>
+                </menu>
+                <menu id="zotero-itemmenu-uread-search-douban" class="single-select-book" label="&zotero.uread.search.douban.label;">
+                    <menupopup id="zotero-itemmenu-uread-search-douban-menupopup">
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-douban-isbn"
+                            class="isbn"
+                            label="&zotero.uread.search.isbn.label;"
+                            oncommand="Zotero.uRead.Searcher.search('douban', 'ISBN')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-douban-title"
+                            class="title"
+                            label="&zotero.uread.search.title.label;"
+                            oncommand="Zotero.uRead.Searcher.search('douban', 'title')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-douban-series"
+                            class="series"
+                            label="&zotero.uread.search.series.label;"
+                            oncommand="Zotero.uRead.Searcher.search('douban', 'series')"/>
+                    </menupopup>
+                </menu>
+                <menu id="zotero-itemmenu-uread-search-superlib" class="single-select-book" label="&zotero.uread.search.superlib.label;">
+                    <menupopup id="zotero-itemmenu-uread-search-superlib-menupopup">
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-superlib-isbn"
+                            class="isbn"
+                            label="&zotero.uread.search.isbn.label;"
+                            oncommand="Zotero.uRead.Searcher.search('superlib', 'ISBN')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-superlib-title"
+                            class="title"
+                            label="&zotero.uread.search.title.label;"
+                            oncommand="Zotero.uRead.Searcher.search('superlib', 'title')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-superlib-series"
+                            class="series"
+                            label="&zotero.uread.search.series.label;"
+                            oncommand="Zotero.uRead.Searcher.search('superlib', 'series')"/>
+                    </menupopup>
+                </menu>
+                <menu id="zotero-itemmenu-uread-search-jd" class="single-select-book" label="&zotero.uread.search.jd.label;">
+                    <menupopup id="zotero-itemmenu-uread-search-jd-menupopup">
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-jd-isbn"
+                            class="isbn"
+                            label="&zotero.uread.search.isbn.label;"
+                            oncommand="Zotero.uRead.Searcher.search('jd', 'ISBN')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-jd-title"
+                            class="title"
+                            label="&zotero.uread.search.title.label;"
+                            oncommand="Zotero.uRead.Searcher.search('jd', 'title')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-jd-series"
+                            class="series"
+                            label="&zotero.uread.search.series.label;"
+                            oncommand="Zotero.uRead.Searcher.search('jd', 'series')"/>
+                    </menupopup>
+                </menu>
+                <menu id="zotero-itemmenu-uread-search-dangdang" class="single-select-book" label="&zotero.uread.search.dangdang.label;">
+                    <menupopup id="zotero-itemmenu-uread-search-dangdang-menupopup">
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-dangdang-isbn"
+                            class="isbn"
+                            label="&zotero.uread.search.isbn.label;"
+                            oncommand="Zotero.uRead.Searcher.search('dangdang', 'ISBN')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-dangdang-title"
+                            class="title"
+                            label="&zotero.uread.search.title.label;"
+                            oncommand="Zotero.uRead.Searcher.search('dangdang', 'title')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-dangdang-series"
+                            class="series"
+                            label="&zotero.uread.search.series.label;"
+                            oncommand="Zotero.uRead.Searcher.search('dangdang', 'series')"/>
+                    </menupopup>
+                </menu>
+                <menu id="zotero-itemmenu-uread-search-baidu" class="single-select-book" label="&zotero.uread.search.baidu.label;">
+                    <menupopup id="zotero-itemmenu-uread-search-baidu-menupopup">
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-baidu-isbn"
+                            class="isbn"
+                            label="&zotero.uread.search.isbn.label;"
+                            oncommand="Zotero.uRead.Searcher.search('baidu', 'ISBN')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-baidu-title"
+                            class="title"
+                            label="&zotero.uread.search.title.label;"
+                            oncommand="Zotero.uRead.Searcher.search('baidu', 'title')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-baidu-series"
+                            class="series"
+                            label="&zotero.uread.search.series.label;"
+                            oncommand="Zotero.uRead.Searcher.search('baidu', 'series')"/>
+                    </menupopup>
+                </menu>
+                <menu id="zotero-itemmenu-uread-search-google" class="single-select-book" label="&zotero.uread.search.google.label;">
+                    <menupopup id="zotero-itemmenu-uread-search-google-menupopup">
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-google-isbn"
+                            class="isbn"
+                            label="&zotero.uread.search.isbn.label;"
+                            oncommand="Zotero.uRead.Searcher.search('google', 'ISBN')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-google-title"
+                            class="title"
+                            label="&zotero.uread.search.title.label;"
+                            oncommand="Zotero.uRead.Searcher.search('google', 'title')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-google-series"
+                            class="series"
+                            label="&zotero.uread.search.series.label;"
+                            oncommand="Zotero.uRead.Searcher.search('google', 'series')"/>
+                    </menupopup>
+                </menu>
+            </menupopup>
+        </menu>
+
+        <menu id="zotero-itemmenu-uread-tools" label="&zotero.uread.tools.label;">
+            <menupopup id="zotero-itemmenu-uread-tools-menupopup">
+                <menuitem
+                    id="zotero-itemmenu-uread-expandSelectedRows"
+                    label="&zotero.uread.expandSelectedRows.label;"
+                    oncommand="Zotero.uRead.Tools.expandSelectedRows()"/>
+                <menuitem
+                    id="zotero-itemmenu-uread-collapseSelectedRows"
+                    label="&zotero.uread.collapseSelectedRows.label;"
+                    oncommand="Zotero.uRead.Tools.collapseSelectedRows()"/>
+                <menuseparator />
+
+                <menu id="zotero-itemmenu-uread-clearup" class="muti-select-book" label="&zotero.uread.clearup.label;">
+                    <menupopup id="zotero-itemmenu-uread-clearup-menupopup">
+                        <menuitem
+                            id="zotero-itemmenu-uread-clearup-author"
+                            label="&zotero.uread.clearup.author.label;"
+                            oncommand="Zotero.uRead.Tools.clearupAuthor()"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-clearup-other1"
+                            label="&zotero.uread.clearup.extra1.label;"
+                            oncommand="Zotero.uRead.Tools.clearupExtra1()"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-clearup-other2"
+                            label="&zotero.uread.clearup.extra2.label;"
+                            oncommand="Zotero.uRead.Tools.clearupExtra2()"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-clearup-title"
+                            label="&zotero.uread.clearup.title.label;"
+                            oncommand="Zotero.uRead.Tools.clearupTitle()"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-clearup-abstractnote"
+                            label="&zotero.uread.clearup.abstractnote.label;"
+                            oncommand="Zotero.uRead.Tools.clearupAbstractNote()"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-clearup-tags"
+                            label="&zotero.uread.clearup.tags.label;"
+                            oncommand="Zotero.uRead.Tools.clearuptags()"/>
+                        <menuseparator id="zotero-itemmenu-uread-clearup-separator1"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-clearup-clearupall"
+                            label="&zotero.uread.clearup.clearupall.label;"
+                            oncommand="Zotero.uRead.Tools.clearupall()"/>
+                    </menupopup>
+                </menu>
+
+                <menuseparator id="zotero-itemmenu-uread-separator4"/>
+
+                <menuitem
+                    id="zotero-itemmenu-uread-fixclc"
+                    label="&zotero.uread.fixclc.label;"
+                    class="single-select-book"
+                    oncommand="Zotero.uRead.Tools.fixclc()"/>
+                <menuitem
+                    id="zotero-itemmenu-uread-fixsubject"
+                    label="&zotero.uread.fixsubject.label;"
+                    oncommand="Zotero.uRead.Tools.fixsubject()"/>
+
+                <menuseparator />
+
+                <menuitem
+                    id="zotero-itemmenu-uread-archive"
+                    label="&zotero.uread.archive.label;"
+                    oncommand="Zotero.uRead.Tools.archive()"/>
+
+                <menuseparator id="zotero-itemmenu-uread-separator5"/>
+
+                <menu id="zotero-itemmenu-uread-location" class="single-select" label="&zotero.uread.location.label;">
+                    <menupopup id="zotero-itemmenu-uread-location-menupopup">
+                    </menupopup>
+                </menu>
+            </menupopup>
+        </menu>
+    </popup>
+
+    <popup id="zotero-collectionmenu">
+        <menuseparator />
+        <menuitem
+            id="zotero-collectionmenu-uread-initCollection"
+            label="&zotero.uread.initCollection.label;"
+            oncommand="Zotero.uRead.Collection.initCollection()" />
+        <menuitem
+            id="zotero-collectionmenu-uread-selectnoncollection"
+            label="&zotero.uread.selectnoncollection.label;"
+            oncommand="Zotero.uRead.Collection.selectnoncollection()" />
+    </popup>
+
+    <popup id="menu_ToolsPopup">
+        <menuseparator />
+
+        <menu id="zotero-collectionmenu-uread-updatetranslator" label="&zotero.uread.updatetranslator.label;">
+            <menupopup id="zotero-collectionmenu-uread-updatetranslator-menupopup">
+                <menuitem id="zotero-collectionmenu-uread-localupdatetranslator"
+                    label="&zotero.uread.localupdatetranslator.label;"
+                    oncommand="Zotero.uRead.Plugin.localupdatetranslator()" />
+                <menuseparator />
+                <menuitem id="zotero-collectionmenu-uread-zoteroupdatetranslator"
+                    label="&zotero.uread.zoteroupdatetranslator.label;"
+                    oncommand="Zotero.uRead.Plugin.zoteroupdatetranslator()" />
+                <menuitem id="zotero-collectionmenu-uread-dougsocietyupdatetranslator"
+                    label="&zotero.uread.dougsocietyupdatetranslator.label;"
+                    oncommand="Zotero.uRead.Plugin.dougsocietyupdatetranslator()" />
+                <!--<menuitem id="zotero-collectionmenu-uread-ureadupdatetranslator"
+                    label="&zotero.uread.ureadupdatetranslator.label;"
+                    oncommand="Zotero.uRead.Plugin.ureadupdatetranslator()" />-->
+                <menuseparator />
+                <menuitem id="zotero-collectionmenu-uread-resettranslator"
+                    label="&zotero.uread.resettranslator.label;"
+                    oncommand="Zotero.uRead.Plugin.resettranslator()" />
+            </menupopup>
+        </menu>
+    </popup>
+</overlay>
