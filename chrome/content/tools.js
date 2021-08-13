@@ -343,6 +343,91 @@ tools.archive = async function () {
   await this._archive(false)
 }
 
+tools.movearchivebyclc = async function () {
+  await this._archivebyclc(true)
+}
+
+tools.archivebyclc = async function () {
+  await this._archivebyclc(false)
+}
+
+tools._archivebyclc = async function (overlay) {
+  var zitems = Utils.getSelectedItems(['book'])
+  if (!zitems || zitems.length <= 0) {
+    Utils.warning(Utils.getString('uread.nonsupport'))
+    return
+  }
+  Zotero.debug('uRead@zitems.length: ' + zitems.length)
+
+  let pw = new Zotero.ProgressWindow()
+  pw.changeHeadline(Utils.getString('uread.title.archive'))
+  pw.addDescription(Utils.getString('uread.choose', zitems.length))
+  pw.show()
+
+  for (const zitem of zitems) {
+    let clc = zitem.getField('archiveLocation')
+    if (!clc) {
+      pw.addLines(`${zitem.getField('title')}，请先修复中图分类信息。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
+    } else {
+      let request = await Zotero.HTTP.request(
+        'GET',
+        'http://api.uread.today/master/anon/ch_lib_cls/info?code=' + clc,
+        {
+          noCache: true,
+          responseType: 'text'
+        }
+      )
+      if (request.status === 200) {
+        Zotero.debug('uRead@doGet: ' + request.responseText)
+        let json = JSON.parse(request.responseText)
+        if (json && json.resultcode === 1) {
+          let clcObj = json.data.clc
+          if (json.data.clc) {
+            let clcs = [...clcObj.parents]
+            clcs.push(clcObj)
+            Zotero.debug('uRead@clcs: ' + clcs.length)
+
+            let collection = Zotero.uRead.Collection.loopSearchCollection(undefined, clcs[0].code)
+            if (!collection) {
+              // 未找到
+              Zotero.debug('uRead@未找到: ' + index)
+              pw.addLines(`${zitem.getField('title')}，未找到${clcs[0].code}的学科目录。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
+            } else {
+              for (let index = 1; index < clcs.length; index++) {
+                const element = clcs[index]
+                let code = element.code
+                let name = element.name
+                let ret = await Zotero.uRead.Collection.searchCollection(collection.key, code, name)
+                collection = ret.collection
+                Zotero.debug(`uRead@Zotero.uRead.Collection.searchCollection: ${collection.id}`)
+              }
+
+              let collections = []
+              if (!overlay) {
+                collections.push(...zitem.getCollections())
+              }
+              Zotero.debug(`uRead@collections: ${collections.join(',')}`)
+              collections.push(collection.id)
+              Zotero.debug(`uRead@collections: ${collections.join(',')}`)
+              zitem.setCollections(collections)
+              zitem.setField('archive', clcObj.code)
+              await zitem.saveTx()
+              pw.addLines(`${zitem.getField('title')} 已归档至 ${Zotero.uRead.Tools.showPath(collection.id)}`, `chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
+            }
+          } else {
+            pw.addLines(`${zitem.getField('title')}，未找到学科信息。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
+          }
+        }
+      } else if (request.status === 0) {
+        pw.addLines(`${request.status} - 网络错误。`, `chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
+      } else {
+        pw.addLines(`${request.status} - ${request.statusText}`, `chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
+      }
+    }
+  }
+  pw.addDescription(Utils.getString('uread.click_on_close'))
+}
+
 tools._archive = async function (overlay) {
   var zitems = Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
@@ -671,6 +756,8 @@ if (typeof window !== 'undefined') {
 
   window.Zotero.uRead.Tools.archive = function () { tools.archive() }
   window.Zotero.uRead.Tools.movearchive = function () { tools.movearchive() }
+  window.Zotero.uRead.Tools.archivebyclc = function () { tools.archivebyclc() }
+  window.Zotero.uRead.Tools.movearchivebyclc = function () { tools.movearchivebyclc() }
 
   window.Zotero.uRead.Tools.location = function (collectionID, itemID) { tools.location(collectionID, itemID) }
 

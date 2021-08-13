@@ -55,6 +55,58 @@ collection.initCollection = function () {
   }.bind(this))
 }
 
+collection.initClcCollection = function () {
+  // var libraryID = Zotero.Libraries.userLibraryID;
+  // Zotero.Collections.getByParent(Zotero.Collections.getIDFromLibraryAndKey(Zotero.Libraries.userLibraryID, 'ZIJLEJZV'))
+  let collection = ZoteroPane.getSelectedCollection()
+  if (!collection) {
+    Utils.warning('请选择需要初始化的图书根目录。')
+    return
+  }
+  Zotero.showZoteroPaneProgressMeter('正在获取中图分类数据 ...')
+  let name
+  if (/^[A-Z][A-Z0-9-]*\. /g.exec(collection.name)) {
+    name = collection.name.replace(/\..+/g, '')
+  } else {
+    name = 'ROOT'
+  }
+  Zotero.HTTP.doGet('http://api.uread.today/master/anon/ch_lib_cls/list?p=' + name, async function (request) {
+    Zotero.hideZoteroPaneOverlays()
+    if (request.status === 200) {
+      let json = JSON.parse(request.responseText)
+      if (json && json.resultcode === 1 && json.data.length > 0) {
+        let exists = 0
+        for (let index = 0; index < json.data.length; index++) {
+          const element = json.data[index]
+          let ret = await this.searchCollection(collection.key, element.code, element.name)
+          Zotero.debug('uRead@parentKey: ' + ret.collection + ', added: ' + ret.added)
+          if (!ret.added) {
+            exists++
+            Zotero.debug('uRead@exists: ' + exists)
+          }
+          //element.children.forEach(async function (c) {
+          //  await this._newCollection(subcollection.key, `${c.code}. ${c.name}`)
+          //}.bind(this))
+        }
+        Zotero.debug('uRead@exists: ' + exists)
+        if (exists === json.data.length) {
+          Utils.warning(`${collection.name}所有子中图分类都已经存在，无需新增。`)
+        } else if (exists === 0) {
+          Utils.success(`${collection.name}子中图分类全部新增成功。`)
+        } else {
+          Utils.success(`${collection.name}子中图分类成功新增${json.data.length - exists}个，有${exists}已经存在。`)
+        }
+      } else {
+        Utils.warning(`${collection.name}无子中图分类。`)
+      }
+    } else if (request.status === 0) {
+      Utils.warning(`${request.status} - 网络错误。`)
+    } else {
+      Utils.warning(`${request.status} - ${request.statusText}`)
+    }
+  }.bind(this))
+}
+
 collection.selectnoncollection = function () {
   Zotero.Items.getAll(1, true, false).then((rets) => {
     let ids = []
@@ -171,6 +223,7 @@ if (typeof window !== 'undefined') {
   // note sure about any of this
 
   window.Zotero.uRead.Collection.initCollection = function () { collection.initCollection() }
+  window.Zotero.uRead.Collection.initClcCollection = function () { collection.initClcCollection() }
   window.Zotero.uRead.Collection.selectnoncollection = function () { collection.selectnoncollection() }
   window.Zotero.uRead.Collection.updatetranslator = function () { collection.updatetranslator() }
 

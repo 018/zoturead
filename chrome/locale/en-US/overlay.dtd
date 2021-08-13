@@ -40,11 +40,14 @@
 <!ENTITY zotero.uread.clearup.clearupall.label "All">
 <!ENTITY zotero.uread.fixclc.label "Fix Clc">
 <!ENTITY zotero.uread.fixsubject.label "Fix Subject">
-<!ENTITY zotero.uread.archive.label "Copy Archive">
-<!ENTITY zotero.uread.movearchive.label "Move Archive">
+<!ENTITY zotero.uread.archive.label "Copy Archive By Subject">
+<!ENTITY zotero.uread.movearchive.label "Move Archive By Subject">
+<!ENTITY zotero.uread.archivebyclc.label "Copy Archive By Clc">
+<!ENTITY zotero.uread.movearchivebyclc.label "Move Archive By Clc">
 <!ENTITY zotero.uread.location.label "Location">
 
 <!ENTITY zotero.uread.initCollection.label "Init Subject Collection">
+<!ENTITY zotero.uread.initClcCollection.label "Init Clc Collection">
 <!ENTITY zotero.uread.selectnoncollection.label "Select Non Collection">
 
 <!ENTITY zotero.uread.updatetranslator.label "Update Translator">

@@ -25,6 +25,11 @@ uread.collectionmenuPopupShowing = function () {
       } else {
         document.getElementById('zotero-collectionmenu-uread-initCollection').label = `新建学科目录`
       }
+      if (/^[A-Z][A-Z0-9-]*\. /g.exec(collection.name)) {
+        document.getElementById('zotero-collectionmenu-uread-initClcCollection').label = `新建 ${collection.name} 子中图目录`
+      } else {
+        document.getElementById('zotero-collectionmenu-uread-initClcCollection').label = `新建中图目录`
+      }
     } else {
       disabled = true
     }
@@ -32,6 +37,7 @@ uread.collectionmenuPopupShowing = function () {
 
   document.getElementById('zotero-collectionmenu-uread-selectnoncollection').hidden = ZoteroPane.getSelectedCollection()
   document.getElementById('zotero-collectionmenu-uread-initCollection').disabled = disabled
+  document.getElementById('zotero-collectionmenu-uread-initClcCollection').disabled = disabled
 }
 
 uread.itemmenuPopupShowing = function () {
