@@ -30,7 +30,7 @@ plugin.localupdatetranslator = function () {
         itemProgress.setProgress(100)
       }
       Zotero.Translators.reinit()
-      pw.addDescription(`更新成功 ${count} 个Translator。`)
+      pw.addDescription(`成功覆盖更新 ${count} 个Translator。`)
       pw.addDescription(`只需要在浏览器执行「Advanced」-「Update Translators」即可，无需重启Zotero。`)
     }
   })
@@ -71,97 +71,130 @@ plugin._updateTranslatorByGithub = async function (title, url) {
     `数据请求中 ...`
   )
   itemProgress.setProgress(50)
+  await Utils.requestAsync(url)
 
-  Zotero.HTTP.loadDocuments(`${url}/file-list/master`, async function (document1) {
-    let jss = document1.querySelectorAll('.js-details-container .js-navigation-item')
-    let adds = 0
-    let mods = 0
-    let skips = 0
-    let more = false
-    for (let i = 0; i < jss.length; i++) {
-      let a = jss[i].querySelector('a.js-navigation-open')
-      let filename = a.textContent
-      let href = a.href
-      if (filename.endsWith('.js')) {
-        if (itemProgress) {
-          itemProgress.setIcon(`chrome://zotero/skin/spinner-16px${Zotero.hiDPISuffix}.png`)
-          itemProgress.setText(`${filename} ... (${i}/${jss.length})`)
-        } else {
-          if (adds + mods === 20) {
-            itemProgress = new pw.ItemProgress(null, `...`)
-            itemProgress.setProgress(100)
-            more = true
-          }
-          itemProgress = new pw.ItemProgress(
-            `chrome://zotero/skin/spinner-16px${Zotero.hiDPISuffix}.png`,
-            `${filename} ... (${i}/${jss.length})`
-          )
-        }
-        itemProgress.setProgress(50)
-        let document2 = await Utils.loadDocumentAsync(href)
-        let content = Zotero.File.getContentsFromURL(document2.getElementById('raw-url').href)
-        var tmpFile = OS.Path.join(Zotero.getTempDirectory().path, filename)
-        var file1 = Zotero.File.pathToFile(tmpFile)
-        await Zotero.File.putContentsAsync(tmpFile, content)
-        let translator1 = await Zotero.Translators.loadFromFile(tmpFile)
-        Zotero.debug(`远程lastUpdated: ${translator1.lastUpdated}`)
-
-        var locFile = OS.Path.join(Zotero.getTranslatorsDirectory().path, filename)
-        var file2 = Zotero.File.pathToFile(locFile)
-        let translator2
-        let need = false
-        if (file2.exists()) {
-          translator2 = await Zotero.Translators.loadFromFile(locFile)
-
-          Zotero.debug(`本地lastUpdated: ${translator2.lastUpdated}`)
-          if (translator1.lastUpdated !== translator2.lastUpdated) {
-            mods++
-            need = true
-          }
-        } else {
-          Zotero.debug(`${locFile} 本地不存在。`)
-          adds++
-          need = true
-        }
-
-        if (need) {
-          file1.copyTo(Zotero.getTranslatorsDirectory(), filename)
-          file1.remove(null)
-          Zotero.debug(`${filename} 更新成功。`)
-
-          itemProgress.setIcon(`chrome://zotero/skin/${!translator2 ? 'page-white-add' : 'treeitem-journalArticle'}${Zotero.hiDPISuffix}.png`)
-          itemProgress.setProgress(100)
-          itemProgress.setText(`${filename} ${!translator2 ? '新增成功。' : '覆盖成功。'}`)
-          if (!more) {
-            itemProgress = null
-          }
-        } else {
-          skips++
-          itemProgress.setIcon(`chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
-          itemProgress.setText(`${filename} 已经是最新。`)
-        }
-      }
-    }
-
-    if (skips > 0) {
-      if (itemProgress) {
-        itemProgress.setIcon(`chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
-        itemProgress.setText(`${skips} 个无需更新，已跳过。`)
+  //Zotero.HTTP.loadDocuments(`${url}/file-list/master`, async function (document1) {
+  Zotero.HTTP.doGet(`${url}/file-list/master`, async function (request) {
+    Zotero.debug(request)
+    if (request.status === 200) {
+      var document1 = (new DOMParser()).parseFromString(request.responseText, 'text/html')
+      let jss = document1.querySelectorAll('.js-details-container .js-navigation-item')
+      if (jss.length === 0) {
+        itemProgress.setIcon(`chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
+        itemProgress.setText(`获取数据异常，请重试。`)
         itemProgress.setProgress(100)
       } else {
-        itemProgress = new pw.ItemProgress(
-          `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`,
-          `${skips} 个无需更新，已跳过。`
-        )
-        itemProgress.setProgress(100)
+        let adds = 0
+        let mods = 0
+        let skips = 0
+        let more = false
+        for (let i = 0; i < jss.length; i++) {
+          let a = jss[i].querySelector('a.js-navigation-open')
+          let filename = a.textContent
+          let href = a.href.replace(/chrome:\/\/zotero/, 'https://github.com')
+          if (filename.endsWith('.js')) {
+            if (itemProgress) {
+              itemProgress.setIcon(`chrome://zotero/skin/spinner-16px${Zotero.hiDPISuffix}.png`)
+              itemProgress.setText(`${filename} .. (${i}/${jss.length})`)
+            } else {
+              if (adds + mods === 20) {
+                itemProgress = new pw.ItemProgress(null, `...`)
+                itemProgress.setProgress(100)
+                more = true
+              }
+              itemProgress = new pw.ItemProgress(
+                `chrome://zotero/skin/spinner-16px${Zotero.hiDPISuffix}.png`,
+                `${filename} .. (${i}/${jss.length})`
+              )
+            }
+            itemProgress.setProgress(50)
+            Zotero.debug('>>>' + href)
+            let request1 = await Utils.requestAsync(href)
+            var document2 = (new DOMParser()).parseFromString(request1.responseText, 'text/html')
+            if (request1.status === 200) {
+              itemProgress.setText(`${filename} ... (${i}/${jss.length})`)
+              let rawurl = document2.getElementById('raw-url').href.replace(/chrome:\/\/zotero/, 'https://github.com')
+              Zotero.debug('>>>' + rawurl)
+              let content = Zotero.File.getContentsFromURL(rawurl)
+              var tmpFile = OS.Path.join(Zotero.getTempDirectory().path, filename)
+              var file1 = Zotero.File.pathToFile(tmpFile)
+              await Zotero.File.putContentsAsync(tmpFile, content)
+              itemProgress.setText(`${filename} .... (${i}/${jss.length})`)
+              let translator1 = await Zotero.Translators.loadFromFile(tmpFile)
+              Zotero.debug(`远程lastUpdated: ${translator1.lastUpdated}`)
+      
+              var locFile = OS.Path.join(Zotero.getTranslatorsDirectory().path, filename)
+              var file2 = Zotero.File.pathToFile(locFile)
+              let translator2
+              let need = false
+              if (file2.exists()) {
+                translator2 = await Zotero.Translators.loadFromFile(locFile)
+      
+                Zotero.debug(`本地lastUpdated: ${translator2.lastUpdated}`)
+                if (translator1.lastUpdated !== translator2.lastUpdated) {
+                  mods++
+                  need = true
+                }
+              } else {
+                Zotero.debug(`${locFile} 本地不存在。`)
+                adds++
+                need = true
+              }
+      
+              if (need) {
+                itemProgress.setText(`${filename} ..... (${i}/${jss.length})`)
+                file1.copyTo(Zotero.getTranslatorsDirectory(), filename)
+                file1.remove(null)
+                Zotero.debug(`${filename} 更新成功。`)
+      
+                itemProgress.setIcon(`chrome://zotero/skin/${!translator2 ? 'page-white-add' : 'treeitem-journalArticle'}${Zotero.hiDPISuffix}.png`)
+                itemProgress.setProgress(100)
+                itemProgress.setText(`${filename} ${!translator2 ? '新增成功。' : '覆盖成功。'}`)
+                if (!more) {
+                  itemProgress = null
+                }
+              } else {
+                skips++
+                itemProgress.setIcon(`chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
+                itemProgress.setText(`${filename} 已经是最新。`)
+              }
+            } else if (request1.status === 0) {
+              itemProgress.setIcon(`chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
+              itemProgress.setText(`${filename}：${request.status} - 网络错误，请重试。`)
+              itemProgress.setProgress(100)
+            } else {
+              itemProgress.setIcon(`chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
+              itemProgress.setText(`${filename}：${request.status} - ${request.statusText}`)
+              itemProgress.setProgress(100)
+            }
+          }
+        }
+
+        if (skips > 0) {
+          if (itemProgress) {
+            itemProgress.setIcon(`chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
+            itemProgress.setText(`${skips} 个无需更新，已跳过。`)
+            itemProgress.setProgress(100)
+          } else {
+            itemProgress = new pw.ItemProgress(
+              `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`,
+              `${skips} 个无需更新，已跳过。`
+            )
+            itemProgress.setProgress(100)
+          }
+        }
+        Zotero.Translators.reinit()
+        pw.addDescription(`成功新增${adds}个，覆盖${mods}个，无需重启Zotero。`)
       }
+    } else if (request.status === 0) {
+      itemProgress.setIcon(`chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
+      itemProgress.setText(`${request.status} - 网络错误，请重试。`)
+      itemProgress.setProgress(100)
+    } else {
+      itemProgress.setIcon(`chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
+      itemProgress.setText(`${request.status} - ${request.statusText}`)
+      itemProgress.setProgress(100)
     }
-    Zotero.Translators.reinit()
-    pw.addDescription(`成功新增${adds}个，覆盖${mods}个，无需重启Zotero。`)
-  },
-  null,
-  function (e) {
-    pw.addDescription(e)
   })
 }
 

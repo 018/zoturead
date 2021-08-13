@@ -144,4 +144,24 @@ if (!window.Utils) {
     })
     return doc
   }
+
+  window.Utils.requestAsync = async function (url) {
+    var xmlhttp = await Zotero.HTTP.request('GET', url)
+    return xmlhttp
+  }
+
+  window.Utils.htmlToText = function (html) {
+    var	nsIFC = Components.classes['@mozilla.org/widget/htmlformatconverter;1'].createInstance(Components.interfaces.nsIFormatConverter)
+    var from = Components.classes['@mozilla.org/supports-string;1'].createInstance(Components.interfaces.nsISupportsString)
+    from.data = html
+    var to = { value: null }
+    try {
+      nsIFC.convert('text/html', from, from.toString().length, 'text/unicode', to, {})
+      to = to.value.QueryInterface(Components.interfaces.nsISupportsString)
+      return to.toString()
+    } catch (e) {
+      Zotero.debug(e, 1)
+      return html
+    }
+  }
 }

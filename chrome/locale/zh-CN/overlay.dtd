@@ -40,8 +40,9 @@
 <!ENTITY zotero.uread.clearup.clearupall.label "以上所有">
 <!ENTITY zotero.uread.fixclc.label "修复中图分类号">
 <!ENTITY zotero.uread.fixsubject.label "修复学科号">
-<!ENTITY zotero.uread.archive.label "归档">
-<!ENTITY zotero.uread.location.label "定位">
+<!ENTITY zotero.uread.archive.label "复制条目归档">
+<!ENTITY zotero.uread.movearchive.label "移动条目归档">
+<!ENTITY zotero.uread.location.label "定位条目">
 
 <!ENTITY zotero.uread.initCollection.label "初始化学科目录结构">
 <!ENTITY zotero.uread.selectnoncollection.label "选中未归档条目">

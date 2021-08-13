@@ -162,7 +162,10 @@ site.openaschrome = async function () {
     Utils.warning(Utils.getString('uread.nonsupport'))
     return
   }
-  Zotero.Utilities.Internal.exec('/usr/bin/open', ['-a', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', zitems[0].getField('url')])
+  for (const item of zitems) {
+    let url = item.getField('url')
+    Zotero.Utilities.Internal.exec('/usr/bin/open', ['-a', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', url])
+  }
 }
 
 site.clcinfo = function () {
@@ -337,8 +340,12 @@ site.addCatalogueCompare = function () {
 
   let pw = new Zotero.ProgressWindow()
   pw.changeHeadline(Utils.getString('uread.title'))
-  pw.addLines('处理中...', `chrome://zotero/skin/spinner-16px${Zotero.hiDPISuffix}.png`)
   pw.show()
+  let itemProgress = new pw.ItemProgress(
+    `chrome://zotero/skin/spinner-16px${Zotero.hiDPISuffix}.png`,
+    `处理中 ...`
+  )
+  itemProgress.setProgress(50)
   let dois = []
   let count = 0
   for (const zitem of zitems) {
@@ -348,7 +355,19 @@ site.addCatalogueCompare = function () {
       dois.push(doi)
     } else {
       count++
-      pw.addLines(`${zitem.getField('title')}不是今日优读抓取的书籍，已跳过。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
+      if (itemProgress) {
+        itemProgress.setIcon(`chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
+        itemProgress.setText(`${zitem.getField('title')}不是今日优读抓取的书籍，已跳过。`)
+        itemProgress.setProgress(100)
+        itemProgress = null
+      } else {
+        itemProgress = new pw.ItemProgress(
+          `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`,
+          `${zitem.getField('title')}不是今日优读抓取的书籍，已跳过。`
+        )
+        itemProgress.setProgress(100)
+        itemProgress = null
+      }
     }
   }
   Zotero.debug('uRead@dois: ' + dois)

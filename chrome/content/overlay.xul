@@ -38,7 +38,6 @@
                     oncommand="Zotero.uRead.Site.quickview()"/>-->
                 <menuitem
                     id="zotero-itemmenu-uread-openaschrome"
-                    class="single-select-book"
                     label="&zotero.uread.openaschrome.label;"
                     oncommand="Zotero.uRead.Site.openaschrome()"/>
 
@@ -313,6 +312,11 @@
                     id="zotero-itemmenu-uread-archive"
                     label="&zotero.uread.archive.label;"
                     oncommand="Zotero.uRead.Tools.archive()"/>
+
+                <menuitem
+                    id="zotero-itemmenu-uread-movearchive"
+                    label="&zotero.uread.movearchive.label;"
+                    oncommand="Zotero.uRead.Tools.movearchive()"/>
 
                 <menuseparator id="zotero-itemmenu-uread-separator5"/>
 
