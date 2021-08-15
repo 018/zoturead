@@ -239,6 +239,51 @@ tools.clearupAbstractNote = function (pw) {
   }
 }
 
+tools.mergecatalog = function (pw) {
+  var zitems = Utils.getSelectedItems(['book'])
+  if (!zitems || zitems.length <= 0) {
+    Utils.warning(Utils.getString('uread.nonsupport'))
+    return
+  }
+  Zotero.debug('uRead@zitems.length: ' + zitems.length)
+  let srcPw = pw
+  if (!srcPw) {
+    pw = new Zotero.ProgressWindow()
+    pw.changeHeadline(Utils.getString('uread.title.clearup'))
+    pw.addDescription(Utils.getString('uread.choose', zitems.length))
+    pw.show()
+    Zotero.debug(pw)
+  }
+
+  for (const zitem of zitems) {
+    Zotero.debug(zitem)
+    let lastDateModified = '1970-01-01 00:00:00'
+    let lastNoteID = 0
+    let catalogs = 0
+    for (const noteID of zitem.getNotes()) {
+      let note = Zotero.Items.get(noteID)
+      if (note.getNoteTitle() === '目录') {
+        let dateModified = note.getField('dateModified')
+        if (dateModified > lastDateModified) {
+          lastDateModified = dateModified
+          if (lastNoteID > 0) {
+            Zotero.Items.trashTx(lastNoteID)
+            catalogs++
+          }
+          lastNoteID = noteID
+        } else {
+          Zotero.Items.trashTx(noteID)
+          catalogs++
+        }
+      }
+    }
+    pw.addLines(`${zitem.getField('title')} ${catalogs > 0 ? '合并成功。' : '无需合并。'}`, `chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
+  }
+  if (!srcPw) {
+    pw.addDescription(Utils.getString('uread.click_on_close'))
+  }
+}
+
 tools.clearupall = function () {
   var zitems = Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
@@ -257,6 +302,7 @@ tools.clearupall = function () {
   this.clearupTitle(pw)
   this.clearupAbstractNote(pw)
   this.clearuptags(pw)
+  this.mergecatalog(pw)
 
   pw.addDescription(Utils.getString('uread.click_on_close'))
 }
@@ -749,6 +795,7 @@ if (typeof window !== 'undefined') {
   window.Zotero.uRead.Tools.clearupTitle = function () { tools.clearupTitle() }
   window.Zotero.uRead.Tools.clearupAbstractNote = function () { tools.clearupAbstractNote() }
   window.Zotero.uRead.Tools.clearuptags = function () { tools.clearuptags() }
+  window.Zotero.uRead.Tools.mergecatalog = function () { tools.mergecatalog() }
   window.Zotero.uRead.Tools.clearupall = function () { tools.clearupall() }
 
   window.Zotero.uRead.Tools.fixsubject = function () { tools.fixsubject() }

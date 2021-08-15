@@ -286,6 +286,10 @@
                             id="zotero-itemmenu-uread-clearup-tags"
                             label="&zotero.uread.clearup.tags.label;"
                             oncommand="Zotero.uRead.Tools.clearuptags()"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-clearup-mergecatalog"
+                            label="&zotero.uread.clearup.mergecatalog.label;"
+                            oncommand="Zotero.uRead.Tools.mergecatalog()"/>
                         <menuseparator id="zotero-itemmenu-uread-clearup-separator1"/>
                         <menuitem
                             id="zotero-itemmenu-uread-clearup-clearupall"

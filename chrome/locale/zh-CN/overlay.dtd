@@ -37,6 +37,7 @@
 <!ENTITY zotero.uread.clearup.tags.label "清空自动标签(非自定义标签)">
 <!ENTITY zotero.uread.clearup.title.label "标题(全角括号转为半角)">
 <!ENTITY zotero.uread.clearup.abstractnote.label "摘要(•转为·)">
+<!ENTITY zotero.uread.clearup.mergecatalog.label "合并目录">
 <!ENTITY zotero.uread.clearup.clearupall.label "以上所有">
 <!ENTITY zotero.uread.fixclc.label "修复中图分类号">
 <!ENTITY zotero.uread.fixsubject.label "修复学科号">

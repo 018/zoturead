@@ -37,6 +37,7 @@
 <!ENTITY zotero.uread.clearup.tags.label "Clear tags">
 <!ENTITY zotero.uread.clearup.title.label "Title">
 <!ENTITY zotero.uread.clearup.abstractnote.label "AbstractNote">
+<!ENTITY zotero.uread.clearup.mergecatalog.label "Merge Catalog">
 <!ENTITY zotero.uread.clearup.clearupall.label "All">
 <!ENTITY zotero.uread.fixclc.label "Fix Clc">
 <!ENTITY zotero.uread.fixsubject.label "Fix Subject">
