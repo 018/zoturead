@@ -38,6 +38,7 @@
 <!ENTITY zotero.uread.clearup.title.label "Title">
 <!ENTITY zotero.uread.clearup.abstractnote.label "AbstractNote">
 <!ENTITY zotero.uread.clearup.mergecatalog.label "Merge Catalog">
+<!ENTITY zotero.uread.clearup.mergename.label "Merge Name">
 <!ENTITY zotero.uread.clearup.clearupall.label "All">
 <!ENTITY zotero.uread.fixclc.label "Fix Clc">
 <!ENTITY zotero.uread.fixsubject.label "Fix Subject">
@@ -55,5 +56,6 @@
 <!ENTITY zotero.uread.localupdatetranslator.label "By Local">
 <!ENTITY zotero.uread.zoteroupdatetranslator.label "By Zotero Github">
 <!ENTITY zotero.uread.dougsocietyupdatetranslator.label "By DougSociety">
+<!ENTITY zotero.uread.translatorscnupdatetranslator.label "By translators_cn">
 <!ENTITY zotero.uread.ureadupdatetranslator.label "By uRead">
 <!ENTITY zotero.uread.resettranslator.label "Rest">

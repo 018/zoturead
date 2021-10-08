@@ -55,7 +55,7 @@ if (!window.Utils) {
   }
 
   window.Utils.getString = function (name, ...params) {
-    if (params !== undefined) {
+    if (params !== undefined && params.length > 0) {
       return this._bundle.formatStringFromName(name, params, params.length)
     } else {
       return this._bundle.GetStringFromName(name)

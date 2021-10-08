@@ -38,13 +38,14 @@
 <!ENTITY zotero.uread.clearup.title.label "标题(全角括号转为半角)">
 <!ENTITY zotero.uread.clearup.abstractnote.label "摘要(•转为·)">
 <!ENTITY zotero.uread.clearup.mergecatalog.label "合并目录">
+<!ENTITY zotero.uread.clearup.mergename.label "合并姓名">
 <!ENTITY zotero.uread.clearup.clearupall.label "以上所有">
 <!ENTITY zotero.uread.fixclc.label "修复中图分类号">
 <!ENTITY zotero.uread.fixsubject.label "修复学科号">
-<!ENTITY zotero.uread.archive.label "复制条目归档(学科)">
-<!ENTITY zotero.uread.movearchive.label "移动条目归档(学科)">
-<!ENTITY zotero.uread.archivebyclc.label "复制条目归档(中图)">
-<!ENTITY zotero.uread.movearchivebyclc.label "移动条目归档(中图)">
+<!ENTITY zotero.uread.archive.label "复制归档(学科)">
+<!ENTITY zotero.uread.movearchive.label "移动归档(学科)">
+<!ENTITY zotero.uread.archivebyclc.label "复制归档(中图)">
+<!ENTITY zotero.uread.movearchivebyclc.label "移动归档(中图)">
 <!ENTITY zotero.uread.location.label "定位条目">
 
 <!ENTITY zotero.uread.initCollection.label "初始化学科目录结构">
@@ -55,5 +56,6 @@
 <!ENTITY zotero.uread.localupdatetranslator.label "通过本地">
 <!ENTITY zotero.uread.zoteroupdatetranslator.label "通过Zotero最新官方">
 <!ENTITY zotero.uread.dougsocietyupdatetranslator.label "通过道格学社">
+<!ENTITY zotero.uread.translatorscnupdatetranslator.label "通过Zotero translators 中文维护小组">
 <!ENTITY zotero.uread.ureadupdatetranslator.label "通过今日优读">
 <!ENTITY zotero.uread.resettranslator.label "重置到安装时">

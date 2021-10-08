@@ -285,7 +285,7 @@ site.translate = function () {
 
   let isbn = item.getField('ISBN').replace(/-/g, '')
   let url = 'http://api.uread.today/master/anon/book/get?isbn=' + isbn
-  Zotero.HTTP.doGet(url, function(request) {
+  Zotero.HTTP.doGet(url, function (request) {
     if (request.status === 200) {
       Zotero.debug('uRead@ret: ' + request.responseText)
       let json = JSON.parse(request.responseText)
@@ -374,6 +374,8 @@ site.addCatalogueCompare = function () {
 
   if (count === 0) {
     pw.close()
+  } else {
+    pw.addDescription(Utils.getString('uread.click_on_close'))
   }
 
   if (dois.length > 0) {

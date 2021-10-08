@@ -10,6 +10,68 @@ uread.init = function () {
 
   document.getElementById('zotero-itemmenu').addEventListener('popupshowing', this.itemmenuPopupShowing.bind(this), false)
   document.getElementById('zotero-collectionmenu').addEventListener('popupshowing', this.collectionmenuPopupShowing.bind(this), false)
+  document.getElementById('zotero-items-tree').addEventListener('select', this.itemsTreeOnSelect.bind(this), false)
+
+  window.addEventListener('unload', function (e) {
+    document.getElementById('zotero-itemmenu').removeEventListener('popupshowing', this.itemmenuPopupShowing.bind(this), false)
+    document.getElementById('zotero-collectionmenu').removeEventListener('popupshowing', this.collectionmenuPopupShowing.bind(this), false)
+    document.getElementById('zotero-items-tree').removeEventListener('select', this.itemsTreeOnSelect.bind(this), false)
+  }, false)
+}
+
+uread.itemsTreeOnSelect = function (e) {
+  var zitems = Utils.getSelectedItems('book')
+  if (zitems.length === 1) {
+    let item = zitems[0]
+    let notes = Zotero.Items.get(item.getNotes())
+    let p = document.getElementById('cover-wrap')
+    if (!p) {
+      p = document.createElement('p')
+      p.setAttribute('id', 'cover-wrap')
+      p.style.textAlign = 'center'
+      p.style.width = '100%'
+      p.style.margin = '10px'
+      let image = document.createElement('image')
+      image.setAttribute('id', 'cover-image')
+      image.style.maxWidth = '135px'
+      image.style.maxHeight = '150px'
+      p.append(image)
+      document.getElementById('zotero-editpane-item-box').parentElement.prepend(p)
+      document.getElementById('zotero-editpane-item-box').parentElement.style.display = 'flex'
+      document.getElementById('zotero-editpane-item-box').parentElement.style.flexDirection = 'column'
+      document.getElementById('zotero-editpane-item-box').parentElement.style.alignItems = 'stretch'
+    }
+    let src
+    for (const note of notes) {
+      if (note.getNoteTitle() === '目录') {
+        let match = note.getNote().match(/src=".*?"/g)
+        if (match) {
+          src = match[0].replace('src=', '').replace('"', '')
+        }
+      }
+    }
+    let image = document.getElementById('cover-image')
+    if (src) {
+      image.setAttribute('src', src)
+      p.hidden = false
+      document.getElementById('zotero-editpane-item-box').parentElement.style.display = 'flex'
+      document.getElementById('zotero-editpane-item-box').parentElement.style.flexDirection = 'column'
+      document.getElementById('zotero-editpane-item-box').parentElement.style.alignItems = 'stretch'
+    } else {
+      p.hidden = true
+      document.getElementById('zotero-editpane-item-box').parentElement.style.display = ''
+      document.getElementById('zotero-editpane-item-box').parentElement.style.flexDirection = ''
+      document.getElementById('zotero-editpane-item-box').parentElement.style.alignItems = ''
+    }
+  } else {
+    let p = document.getElementById('cover-wrap')
+    if (p) {
+      p.hidden = true
+      document.getElementById('zotero-editpane-item-box').parentElement.style.display = ''
+      document.getElementById('zotero-editpane-item-box').parentElement.style.flexDirection = ''
+      document.getElementById('zotero-editpane-item-box').parentElement.style.alignItems = ''
+    }
+  }
 }
 
 uread.collectionmenuPopupShowing = function () {

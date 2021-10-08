@@ -40,6 +40,10 @@ plugin.dougsocietyupdatetranslator = async function () {
   this._updateTranslatorByGithub('道格学社', 'https://github.com/gezhongran/DougSociety')
 }
 
+plugin.translatorscnupdatetranslator = async function () {
+  this._updateTranslatorByGithub('Zotero translators 中文维护小组', 'https://github.com/l0o0/translators_CN', '/translators')
+}
+
 plugin.zoteroupdatetranslator = async function () {
   this._updateTranslatorByGithub('Zotero最新官方', 'https://github.com/zotero/translators')
 }
@@ -62,7 +66,7 @@ plugin.resettranslator = async function () {
   itemProgress.setText(`重置成功，无需重启Zotero。`)
 }
 
-plugin._updateTranslatorByGithub = async function (title, url) {
+plugin._updateTranslatorByGithub = async function (title, url, path) {
   let pw = new Zotero.ProgressWindow()
   pw.changeHeadline(`通过${title}更新Translator`)
   pw.show()
@@ -72,9 +76,9 @@ plugin._updateTranslatorByGithub = async function (title, url) {
   )
   itemProgress.setProgress(50)
   await Utils.requestAsync(url)
-
+  
   //Zotero.HTTP.loadDocuments(`${url}/file-list/master`, async function (document1) {
-  Zotero.HTTP.doGet(`${url}/file-list/master`, async function (request) {
+  Zotero.HTTP.doGet(`${url}/file-list/master${path ? path : ''}`, async function (request) {
     Zotero.debug(request)
     if (request.status === 200) {
       var document1 = (new DOMParser()).parseFromString(request.responseText, 'text/html')
@@ -208,6 +212,7 @@ if (typeof window !== 'undefined') {
 
   window.Zotero.uRead.Plugin.localupdatetranslator = function () { plugin.localupdatetranslator() }
   window.Zotero.uRead.Plugin.dougsocietyupdatetranslator = function () { plugin.dougsocietyupdatetranslator() }
+  window.Zotero.uRead.Plugin.translatorscnupdatetranslator = function () { plugin.translatorscnupdatetranslator() }
   window.Zotero.uRead.Plugin.zoteroupdatetranslator = function () { plugin.zoteroupdatetranslator() }
   window.Zotero.uRead.Plugin.ureadupdatetranslator = function () { plugin.ureadupdatetranslator() }
   window.Zotero.uRead.Plugin.resettranslator = function () { plugin.resettranslator() }
