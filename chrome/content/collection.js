@@ -8,7 +8,7 @@ collection.initCollection = function () {
   // Zotero.Collections.getByParent(Zotero.Collections.getIDFromLibraryAndKey(Zotero.Libraries.userLibraryID, 'ZIJLEJZV'))
   let collection = ZoteroPane.getSelectedCollection()
   if (!collection) {
-    Utils.warning('请选择需要初始化的图书根目录。')
+    Zotero.ZotuRead.Utils.warning('请选择需要初始化的图书根目录。')
     return
   }
   Zotero.showZoteroPaneProgressMeter('正在获取学科列表数据 ...')
@@ -38,19 +38,19 @@ collection.initCollection = function () {
         }
         Zotero.debug('uRead@exists: ' + exists)
         if (exists === json.data.length) {
-          Utils.warning(`${collection.name}所有子学科都已经存在，无需新增。`)
+          Zotero.ZotuRead.Utils.warning(`${collection.name}所有子学科都已经存在，无需新增。`)
         } else if (exists === 0) {
-          Utils.success(`${collection.name}子学科全部新增成功。`)
+          Zotero.ZotuRead.Utils.success(`${collection.name}子学科全部新增成功。`)
         } else {
-          Utils.success(`${collection.name}子学科成功新增${json.data.length - exists}个，有${exists}已经存在。`)
+          Zotero.ZotuRead.Utils.success(`${collection.name}子学科成功新增${json.data.length - exists}个，有${exists}已经存在。`)
         }
       } else {
-        Utils.warning(`${collection.name}无子学科。`)
+        Zotero.ZotuRead.Utils.warning(`${collection.name}无子学科。`)
       }
     } else if (request.status === 0) {
-      Utils.warning(`${request.status} - 网络错误。`)
+      Zotero.ZotuRead.Utils.warning(`${request.status} - 网络错误。`)
     } else {
-      Utils.warning(`${request.status} - ${request.statusText}`)
+      Zotero.ZotuRead.Utils.warning(`${request.status} - ${request.statusText}`)
     }
   }.bind(this))
 }
@@ -60,7 +60,7 @@ collection.initClcCollection = function () {
   // Zotero.Collections.getByParent(Zotero.Collections.getIDFromLibraryAndKey(Zotero.Libraries.userLibraryID, 'ZIJLEJZV'))
   let collection = ZoteroPane.getSelectedCollection()
   if (!collection) {
-    Utils.warning('请选择需要初始化的图书根目录。')
+    Zotero.ZotuRead.Utils.warning('请选择需要初始化的图书根目录。')
     return
   }
   Zotero.showZoteroPaneProgressMeter('正在获取中图分类数据 ...')
@@ -90,19 +90,19 @@ collection.initClcCollection = function () {
         }
         Zotero.debug('uRead@exists: ' + exists)
         if (exists === json.data.length) {
-          Utils.warning(`${collection.name}所有子中图分类都已经存在，无需新增。`)
+          Zotero.ZotuRead.Utils.warning(`${collection.name}所有子中图分类都已经存在，无需新增。`)
         } else if (exists === 0) {
-          Utils.success(`${collection.name}子中图分类全部新增成功。`)
+          Zotero.ZotuRead.Utils.success(`${collection.name}子中图分类全部新增成功。`)
         } else {
-          Utils.success(`${collection.name}子中图分类成功新增${json.data.length - exists}个，有${exists}已经存在。`)
+          Zotero.ZotuRead.Utils.success(`${collection.name}子中图分类成功新增${json.data.length - exists}个，有${exists}已经存在。`)
         }
       } else {
-        Utils.warning(`${collection.name}无子中图分类。`)
+        Zotero.ZotuRead.Utils.warning(`${collection.name}无子中图分类。`)
       }
     } else if (request.status === 0) {
-      Utils.warning(`${request.status} - 网络错误。`)
+      Zotero.ZotuRead.Utils.warning(`${request.status} - 网络错误。`)
     } else {
-      Utils.warning(`${request.status} - ${request.statusText}`)
+      Zotero.ZotuRead.Utils.warning(`${request.status} - ${request.statusText}`)
     }
   }.bind(this))
 }
@@ -116,7 +116,7 @@ collection.selectnoncollection = function () {
       }
     })
     if (ids.length === 0) {
-      Utils.success(`恭喜你，所有条目都已归档。`)
+      Zotero.ZotuRead.Utils.success(`恭喜你，所有条目都已归档。`)
     } else {
       ZoteroPane.selectItems(ids, 1)
     }

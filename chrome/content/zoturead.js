@@ -20,7 +20,7 @@ uread.init = function () {
 }
 
 uread.itemsTreeOnSelect = function (e) {
-  var zitems = Utils.getSelectedItems('book')
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems('book')
   if (zitems.length === 1) {
     let item = zitems[0]
     let notes = Zotero.Items.get(item.getNotes())
@@ -47,6 +47,7 @@ uread.itemsTreeOnSelect = function (e) {
         let match = note.getNote().match(/src=".*?"/g)
         if (match) {
           src = match[0].replace('src=', '').replace('"', '')
+          break
         }
       }
     }
@@ -103,7 +104,7 @@ uread.collectionmenuPopupShowing = function () {
 }
 
 uread.itemmenuPopupShowing = function () {
-  var zitems = Utils.getSelectedItems('book')
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems('book')
   var mutiBook = zitems && zitems.length > 0
   var singleBook = zitems && zitems.length === 1
   var single = ZoteroPane.getSelectedItems().length === 1
@@ -158,7 +159,7 @@ uread.itemmenuPopupShowing = function () {
       document.getElementById('zotero-itemmenu-uread-publisherinfo').label = `搜索 ${publisher ? publisher : '出版社'} 信息`
     } else {
       document.getElementById('zotero-itemmenu-uread-translate').disabled = true
-      document.getElementById('zotero-itemmenu-uread-restoretranslate').disabled = !Utils.getParam(url, 'src')
+      document.getElementById('zotero-itemmenu-uread-restoretranslate').disabled = !Zotero.ZotuRead.Utils.getParam(url, 'src')
       document.getElementById('zotero-itemmenu-uread-embody').hidden = true
       document.getElementById('zotero-itemmenu-uread-refresh').hidden = false
 

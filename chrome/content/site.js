@@ -4,17 +4,17 @@ let site = {
 }
 
 site.refresh = async function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
   pw = new Zotero.ProgressWindow()
-  pw.changeHeadline(Utils.getString('uread.title.refresh'))
-  pw.addDescription(Utils.getString('uread.choose', zitems.length))
+  pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.refresh'))
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
   pw.show()
-  pw.addDescription(Utils.getString('uread.click_on_close'))
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
 
   for (const item of zitems) {
     let url = item.getField('url')
@@ -22,7 +22,7 @@ site.refresh = async function () {
       pw.addLines(item.getField('title') + '，非今日优读抓取，已跳过。', `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
       continue
     }
-    let doi = Utils.getParam(url, 'doi')
+    let doi = Zotero.ZotuRead.Utils.getParam(url, 'doi')
     Zotero.HTTP.doGet('http://api.uread.today/master/anon/book/get?doi=' + doi, function (request) {
       if (request.status === 200) {
         Zotero.debug('uRead@ret: ' + request.responseText)
@@ -133,9 +133,9 @@ site.refresh = async function () {
 }
 
 site.embody = function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
@@ -147,9 +147,9 @@ site.embody = function () {
 }
 
 site.quickview = async function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
 
@@ -157,9 +157,9 @@ site.quickview = async function () {
 }
 
 site.openaschrome = async function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   for (const item of zitems) {
@@ -169,9 +169,9 @@ site.openaschrome = async function () {
 }
 
 site.clcinfo = function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
@@ -182,14 +182,14 @@ site.clcinfo = function () {
   if (clc && /^[A-Z][A-B|0-9|/|-|\\.]+$/g.exec(clc)) {
     Zotero.launchURL('http://uread.today/clc?c=' + clc)
   } else {
-    Utils.warning(`${item.getField('title')}无中图分类信息，可先通过「工具」-「修复中图分类号」获取中图分类号。`)
+    Zotero.ZotuRead.Utils.warning(`${item.getField('title')}无中图分类信息，可先通过「工具」-「修复中图分类号」获取中图分类号。`)
   }
 }
 
 site.subjectinfo = function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
@@ -200,14 +200,14 @@ site.subjectinfo = function () {
   if (subject && /^\d{3,7}$/g.exec(subject)) {
     Zotero.launchURL('http://uread.today/subject?c=' + subject)
   } else {
-    Utils.warning(`${item.getField('title')}无学科信息，可先通过「工具」-「修复学科号」获取学科号。`)
+    Zotero.ZotuRead.Utils.warning(`${item.getField('title')}无学科信息，可先通过「工具」-「修复学科号」获取学科号。`)
   }
 }
 
 site.authorsinfo = function (author) {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
 
@@ -218,9 +218,9 @@ site.authorsinfo = function (author) {
     Zotero.launchURL('http://uread.today/authors?q=' + author)
     return
   }
-  let doi = Utils.getParam(url, 'doi')
+  let doi = Zotero.ZotuRead.Utils.getParam(url, 'doi')
   let pw = new Zotero.ProgressWindow()
-  pw.changeHeadline(Utils.getString('uread.title'))
+  pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title'))
   pw.addLines('处理中...', `chrome://zotero/skin/spinner-16px${Zotero.hiDPISuffix}.png`)
   pw.show()
   Zotero.HTTP.doGet('http://api.uread.today/master/anon/book/get?doi=' + doi, function(request) {
@@ -238,22 +238,22 @@ site.authorsinfo = function (author) {
             return
           }
         }
-        Utils.warning(`《${item.getField('title')}》无${author}信息。`)
+        Zotero.ZotuRead.Utils.warning(`《${item.getField('title')}》无${author}信息。`)
       } else {
-        Utils.warning(`《${item.getField('title')}》获取作者信息异常，${json.message}`)
+        Zotero.ZotuRead.Utils.warning(`《${item.getField('title')}》获取作者信息异常，${json.message}`)
       }
     } else if (request.status === 0) {
-      Utils.warning(`${request.status} - 网络错误。`)
+      Zotero.ZotuRead.Utils.warning(`${request.status} - 网络错误。`)
     } else {
-      Utils.warning(`${request.status} - ${request.statusText}`)
+      Zotero.ZotuRead.Utils.warning(`${request.status} - ${request.statusText}`)
     }
   }.bind(this))
 }
 
 site.publisherinfo = function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
@@ -269,14 +269,14 @@ site.publisherinfo = function () {
       Zotero.launchURL('http://uread.today/publisher?n=' + publisher)
     }
   } else {
-    Utils.warning(`《${item.getField('title')}》无出版社信息。`)
+    Zotero.ZotuRead.Utils.warning(`《${item.getField('title')}》无出版社信息。`)
   }
 }
 
 site.translate = function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
@@ -296,50 +296,50 @@ site.translate = function () {
         item.setField('url', newUrl)
         item.saveTx()
         Zotero.debug(oldUrl + ' >>> ' + newUrl)
-        Utils.success('转化成功。')
+        Zotero.ZotuRead.Utils.success('转化成功。')
       } else {
-        Utils.warning(`未收录${isbn}，请先收录。`)
+        Zotero.ZotuRead.Utils.warning(`未收录${isbn}，请先收录。`)
         Zotero.launchURL('http://uread.today/embody?isbn=' + isbn)
       }
     } else if (request.status === 0) {
-      Utils.warning(`${request.status} - 网络错误。`)
+      Zotero.ZotuRead.Utils.warning(`${request.status} - 网络错误。`)
     } else {
-      Utils.warning(`${request.status} - ${request.statusText}`)
+      Zotero.ZotuRead.Utils.warning(`${request.status} - ${request.statusText}`)
     }
   }.bind(this))
 }
 
 site.restoretranslate = function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
 
   let item = zitems[0]
   let oldUrl = item.getField('url')
-  let newUrl = Utils.getParam(oldUrl, 'src')
+  let newUrl = Zotero.ZotuRead.Utils.getParam(oldUrl, 'src')
   if (newUrl) {
     item.setField('url', newUrl)
     item.saveTx()
     Zotero.debug(oldUrl + ' >>> ' + newUrl)
-    Utils.success('还原转化成功。')
+    Zotero.ZotuRead.Utils.success('还原转化成功。')
   } else {
-    Utils.warning('无法还原转化。')
+    Zotero.ZotuRead.Utils.warning('无法还原转化。')
   }
 }
 
 site.addCatalogueCompare = function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
 
   let pw = new Zotero.ProgressWindow()
-  pw.changeHeadline(Utils.getString('uread.title'))
+  pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title'))
   pw.show()
   let itemProgress = new pw.ItemProgress(
     `chrome://zotero/skin/spinner-16px${Zotero.hiDPISuffix}.png`,
@@ -350,7 +350,7 @@ site.addCatalogueCompare = function () {
   let count = 0
   for (const zitem of zitems) {
     let url = zitem.getField('url')
-    let doi = Utils.getParam(url, 'doi')
+    let doi = Zotero.ZotuRead.Utils.getParam(url, 'doi')
     if (doi) {
       dois.push(doi)
     } else {
@@ -375,7 +375,7 @@ site.addCatalogueCompare = function () {
   if (count === 0) {
     pw.close()
   } else {
-    pw.addDescription(Utils.getString('uread.click_on_close'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
   }
 
   if (dois.length > 0) {

@@ -22,9 +22,9 @@ searcher.searchAuthor = function (searcher, author) {
 }
 
 searcher.search = function (searcher, key) {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
@@ -57,7 +57,7 @@ searcher.search = function (searcher, key) {
       break
   }
   if (!val) {
-    Utils.warning(`${item.getField('title')}无${name}信息。`)
+    Zotero.ZotuRead.Utils.warning(`${item.getField('title')}无${name}信息。`)
     return
   }
 

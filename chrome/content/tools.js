@@ -17,17 +17,17 @@ tools.collapseSelectedRows = function () {
 }
 
 tools.clearupAuthor = function (pw) {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
   let srcPw = pw
   if (!srcPw) {
     pw = new Zotero.ProgressWindow()
-    pw.changeHeadline(Utils.getString('uread.title.clearup'))
-    pw.addDescription(Utils.getString('uread.choose', zitems.length))
+    pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.clearup'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
     pw.show()
     Zotero.debug(pw)
   }
@@ -53,22 +53,22 @@ tools.clearupAuthor = function (pw) {
     zitem.saveTx()
   }
   if (!srcPw) {
-    pw.addDescription(Utils.getString('uread.click_on_close'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
   }
 }
 
 tools.clearupExtra1 = function (pw) {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
   let srcPw = pw
   if (!srcPw) {
     pw = new Zotero.ProgressWindow()
-    pw.changeHeadline(Utils.getString('uread.title.clearup'))
-    pw.addDescription(Utils.getString('uread.choose', zitems.length))
+    pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.clearup'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
     pw.show()
     Zotero.debug(pw)
   }
@@ -87,22 +87,22 @@ tools.clearupExtra1 = function (pw) {
     zitem.saveTx()
   }
   if (!srcPw) {
-    pw.addDescription(Utils.getString('uread.click_on_close'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
   }
 }
 
 tools.clearupExtra2 = function (pw) {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
   let srcPw = pw
   if (!srcPw) {
     pw = new Zotero.ProgressWindow()
-    pw.changeHeadline(Utils.getString('uread.title.clearup'))
-    pw.addDescription(Utils.getString('uread.choose', zitems.length))
+    pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.clearup'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
     pw.show()
     Zotero.debug(pw)
   }
@@ -120,22 +120,22 @@ tools.clearupExtra2 = function (pw) {
     zitem.saveTx()
   }
   if (!srcPw) {
-    pw.addDescription(Utils.getString('uread.click_on_close'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
   }
 }
 
 tools.clearuptags = function (pw) {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
   let srcPw = pw
   if (!srcPw) {
     pw = new Zotero.ProgressWindow()
-    pw.changeHeadline(Utils.getString('uread.title.clearup'))
-    pw.addDescription(Utils.getString('uread.choose', zitems.length))
+    pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.clearup'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
     pw.show()
     Zotero.debug(pw)
   }
@@ -166,22 +166,22 @@ tools.clearuptags = function (pw) {
     zitem.saveTx()
   }
   if (!srcPw) {
-    pw.addDescription(Utils.getString('uread.click_on_close'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
   }
 }
 
 tools.clearupTitle = function (pw) {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
   let srcPw = pw
   if (!srcPw) {
     pw = new Zotero.ProgressWindow()
-    pw.changeHeadline(Utils.getString('uread.title.clearup'))
-    pw.addDescription(Utils.getString('uread.choose', zitems.length))
+    pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.clearup'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
     pw.show()
     Zotero.debug(pw)
   }
@@ -200,22 +200,22 @@ tools.clearupTitle = function (pw) {
     zitem.saveTx()
   }
   if (!srcPw) {
-    pw.addDescription(Utils.getString('uread.click_on_close'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
   }
 }
 
 tools.clearupAbstractNote = function (pw) {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
   let srcPw = pw
   if (!srcPw) {
     pw = new Zotero.ProgressWindow()
-    pw.changeHeadline(Utils.getString('uread.title.clearup'))
-    pw.addDescription(Utils.getString('uread.choose', zitems.length))
+    pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.clearup'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
     pw.show()
     Zotero.debug(pw)
   }
@@ -235,22 +235,22 @@ tools.clearupAbstractNote = function (pw) {
     zitem.saveTx()
   }
   if (!srcPw) {
-    pw.addDescription(Utils.getString('uread.click_on_close'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
   }
 }
 
 tools.mergecatalog = function (pw) {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
   let srcPw = pw
   if (!srcPw) {
     pw = new Zotero.ProgressWindow()
-    pw.changeHeadline(Utils.getString('uread.title.clearup'))
-    pw.addDescription(Utils.getString('uread.choose', zitems.length))
+    pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.clearup'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
     pw.show()
     Zotero.debug(pw)
   }
@@ -280,20 +280,20 @@ tools.mergecatalog = function (pw) {
     pw.addLines(`${zitem.getField('title')} ${catalogs > 0 ? '合并成功。' : '无需合并。'}`, `chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
   }
   if (!srcPw) {
-    pw.addDescription(Utils.getString('uread.click_on_close'))
+    pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
   }
 }
 
 tools.mergename = function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
   let pw = new Zotero.ProgressWindow()
-  pw.changeHeadline(Utils.getString('uread.title.clearup'))
-  pw.addDescription(Utils.getString('uread.choose', zitems.length))
+  pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.clearup'))
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
   pw.show()
   Zotero.debug(pw)
 
@@ -319,19 +319,19 @@ tools.mergename = function () {
       pw.addLines(`${zitem.getField('title')} 作者合并成功。`, `chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
     }
   }
-  pw.addDescription(Utils.getString('uread.click_on_close'))
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
 }
 
 tools.clearupall = function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
   var pw = new Zotero.ProgressWindow()
-  pw.changeHeadline(Utils.getString('uread.title.clearup'))
-  pw.addDescription(Utils.getString('uread.choose', zitems.length))
+  pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.clearup'))
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
   pw.show()
 
   this.clearupAuthor(pw)
@@ -342,13 +342,13 @@ tools.clearupall = function () {
   this.clearuptags(pw)
   this.mergecatalog(pw)
 
-  pw.addDescription(Utils.getString('uread.click_on_close'))
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
 }
 
 tools.fixclc = function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
@@ -359,15 +359,15 @@ tools.fixclc = function () {
 }
 
 tools.fixsubject = async function () {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
   let pw = new Zotero.ProgressWindow()
-  pw.changeHeadline(Utils.getString('uread.title.fix'))
-  pw.addDescription(Utils.getString('uread.choose', zitems.length))
+  pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.fix'))
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
   pw.show()
 
   for (const item of zitems) {
@@ -415,7 +415,7 @@ tools.fixsubject = async function () {
       itemProgress.setText(`${request.status} - ${request.statusText}`)
     }
   }
-  pw.addDescription(Utils.getString('uread.click_on_close'))
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
 }
 
 tools.movearchive = async function () {
@@ -435,16 +435,16 @@ tools.archivebyclc = async function () {
 }
 
 tools._archivebyclc = async function (overlay) {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
 
   let pw = new Zotero.ProgressWindow()
-  pw.changeHeadline(Utils.getString('uread.title.archive'))
-  pw.addDescription(Utils.getString('uread.choose', zitems.length))
+  pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.archive'))
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
   pw.show()
 
   for (const zitem of zitems) {
@@ -501,7 +501,7 @@ tools._archivebyclc = async function (overlay) {
       }
     }
   }
-  pw.addDescription(Utils.getString('uread.click_on_close'))
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
 }
 
 tools._clcinfo = async function (clc) {
@@ -529,16 +529,16 @@ tools._clcinfo = async function (clc) {
 }
 
 tools._archive = async function (overlay) {
-  var zitems = Utils.getSelectedItems(['book'])
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
-    Utils.warning(Utils.getString('uread.nonsupport'))
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
     return
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
 
   let pw = new Zotero.ProgressWindow()
-  pw.changeHeadline(Utils.getString('uread.title.archive'))
-  pw.addDescription(Utils.getString('uread.choose', zitems.length))
+  pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.archive'))
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
   pw.show()
 
   for (const zitem of zitems) {
@@ -660,7 +660,7 @@ tools._archive = async function (overlay) {
       pw.addLines(`${zitem.getField('title')}，无效学科信息。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
     }
   }
-  pw.addDescription(Utils.getString('uread.click_on_close'))
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
 }
 
 tools.location = function (collectionID, itemID) {
@@ -744,7 +744,7 @@ tools._parsing = function (author) {
 tools._fixclc = function (item, callback) {
   var isbn = item.getField('ISBN').replace(/-/g, '')
   let pw = new Zotero.ProgressWindow()
-  pw.changeHeadline(Utils.getString('uread.title.fix'))
+  pw.changeHeadline(Zotero.ZotuRead.Utils.getString('uread.title.fix'))
   pw.show()
   let itemProgress = new pw.ItemProgress(
     `chrome://zotero/skin/spinner-16px${Zotero.hiDPISuffix}.png`,
@@ -780,10 +780,10 @@ tools._fixclc = function (item, callback) {
           var url1 = a.href.replace('chrome://zotero', 'http://book.ucdrs.superlib.net')
           await Zotero.HTTP.loadDocuments(url1, async function (doc1) {
             let tubox = doc1.querySelector('.tubox dl').textContent
-            let isbn1 = Utils.opt(/【ISBN号】.*\n/.exec(tubox)).replace(/【ISBN号】|-|\n/g, '')
+            let isbn1 = Zotero.ZotuRead.Utils.opt(/【ISBN号】.*\n/.exec(tubox)).replace(/【ISBN号】|-|\n/g, '')
             Zotero.debug('isbn eqisbn: ' + isbn + ' - ' + isbn1)
-            if (Utils.eqisbn(isbn, isbn1)) {
-              let clc = Utils.opt(Utils.opt(/【中图法分类号】.*\n/.exec(tubox)).match(/[a-zA-Z0-9\.;]+/))
+            if (Zotero.ZotuRead.Utils.eqisbn(isbn, isbn1)) {
+              let clc = Zotero.ZotuRead.Utils.opt(Zotero.ZotuRead.Utils.opt(/【中图法分类号】.*\n/.exec(tubox)).match(/[a-zA-Z0-9\.;]+/))
               if (clc) {
                 Zotero.debug('clc: ' + clc)
                 item.setField('archiveLocation', clc)

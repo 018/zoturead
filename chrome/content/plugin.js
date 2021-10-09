@@ -75,7 +75,7 @@ plugin._updateTranslatorByGithub = async function (title, url, path) {
     `数据请求中 ...`
   )
   itemProgress.setProgress(50)
-  await Utils.requestAsync(url)
+  await Zotero.ZotuRead.Utils.requestAsync(url)
   
   //Zotero.HTTP.loadDocuments(`${url}/file-list/master`, async function (document1) {
   Zotero.HTTP.doGet(`${url}/file-list/master${path ? path : ''}`, async function (request) {
@@ -113,7 +113,7 @@ plugin._updateTranslatorByGithub = async function (title, url, path) {
             }
             itemProgress.setProgress(50)
             Zotero.debug('>>>' + href)
-            let request1 = await Utils.requestAsync(href)
+            let request1 = await Zotero.ZotuRead.Utils.requestAsync(href)
             var document2 = (new DOMParser()).parseFromString(request1.responseText, 'text/html')
             if (request1.status === 200) {
               itemProgress.setText(`${filename} ... (${i}/${jss.length})`)
