@@ -63,7 +63,6 @@
 
                 <menuitem
                     id="zotero-itemmenu-uread-translate"
-                    class="single-select-book"
                     label="&zotero.uread.translate.label;"
                     oncommand="Zotero.uRead.Site.translate()"/>
                 <menuitem
@@ -245,6 +244,38 @@
                             oncommand="Zotero.uRead.Searcher.search('google', 'series')"/>
                     </menupopup>
                 </menu>
+
+                <menuseparator />
+                <menu id="zotero-itemmenu-uread-search-ebook" class="single-select-book" label="&zotero.uread.search.ebook.label;">
+                    <menupopup id="zotero-itemmenu-uread-search-ebook-menupopup">
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-ebook-zlibrary"
+                            label="&zotero.uread.search.ebook.zlibrary.label;"
+                            oncommand="Zotero.uRead.Searcher.searchEBook('zlibrary')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-ebook-librarygenesis"
+                            label="&zotero.uread.search.ebook.librarygenesis.label;"
+                            oncommand="Zotero.uRead.Searcher.searchEBook('librarygenesis')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-ebook-xueshu86"
+                            label="&zotero.uread.search.ebook.xueshu86.label;"
+                            oncommand="Zotero.uRead.Searcher.searchEBook('xueshu86')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-ebook-lorefree"
+                            label="&zotero.uread.search.ebook.lorefree.label;"
+                            oncommand="Zotero.uRead.Searcher.searchEBook('lorefree')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-ebook-yabook"
+                            label="&zotero.uread.search.ebook.yabook.label;"
+                            tooltiptext="需要安装油猴插件今日优读才能实现点击自动搜索。"
+                            oncommand="Zotero.uRead.Searcher.searchEBook('yabook')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-pullcatalogue"
+                            label="&zotero.uread.weread.label;"
+                            class="single-select-book"
+                            oncommand="Zotero.uRead.Tools.weread()"/>
+                    </menupopup>
+                </menu>
             </menupopup>
         </menu>
 
@@ -260,12 +291,29 @@
                     oncommand="Zotero.uRead.Tools.collapseSelectedRows()"/>
                 <menuseparator />
 
+                <menuitem
+                    id="zotero-itemmenu-uread-pullcatalogue"
+                    label="&zotero.uread.pullcatalogue.label;"
+                    class="single-select-book"
+                    tooltiptext="拉目录优先级：今日优读 > 豆瓣 > 京东 > 当当"
+                    oncommand="Zotero.uRead.Tools.pullCatalogue()"/>
+                <menuitem
+                    id="zotero-itemmenu-uread-tryread"
+                    class="single-select-book"
+                    label="&zotero.uread.tryread.label;"
+                    oncommand="Zotero.uRead.Tools.tryRead()"/>
+                <menuseparator />
+
                 <menu id="zotero-itemmenu-uread-clearup" class="muti-select-book" label="&zotero.uread.clearup.label;">
                     <menupopup id="zotero-itemmenu-uread-clearup-menupopup">
                         <menuitem
                             id="zotero-itemmenu-uread-clearup-author"
                             label="&zotero.uread.clearup.author.label;"
                             oncommand="Zotero.uRead.Tools.clearupAuthor()"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-clearup-nationality"
+                            label="&zotero.uread.clearup.nationality.label;"
+                            oncommand="Zotero.uRead.Tools.clearupNationality()"/>
                         <menuitem
                             id="zotero-itemmenu-uread-clearup-other1"
                             label="&zotero.uread.clearup.extra1.label;"
@@ -290,21 +338,36 @@
                             id="zotero-itemmenu-uread-clearup-mergecatalog"
                             label="&zotero.uread.clearup.mergecatalog.label;"
                             oncommand="Zotero.uRead.Tools.mergecatalog()"/>
-                        <menuseparator id="zotero-itemmenu-uread-clearup-separator1"/>
-                        <menuitem
-                            id="zotero-itemmenu-uread-clearup-clearupall"
-                            label="&zotero.uread.clearup.clearupall.label;"
-                            oncommand="Zotero.uRead.Tools.clearupall()"/>
-                        <menuseparator />
                         <menuitem
                             id="zotero-itemmenu-uread-clearup-mergename"
                             label="&zotero.uread.clearup.mergename.label;"
                             oncommand="Zotero.uRead.Tools.mergename()"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-clearup-clearupinitial"
+                            label="&zotero.uread.clearup.clearupinitial.label;"
+                            oncommand="Zotero.uRead.Tools.clearupinitial()"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-clearup-clearupcomment"
+                            label="&zotero.uread.clearup.clearupcomment.label;"
+                            oncommand="Zotero.uRead.Tools.clearupcomment()"/>
+
+                        <menuseparator />
+
+                        <menuitem
+                            id="zotero-itemmenu-uread-clearup-clearupall"
+                            label="&zotero.uread.clearup.clearupall.label;"
+                            oncommand="Zotero.uRead.Tools.clearupAll()"/>
                     </menupopup>
                 </menu>
 
                 <menuseparator id="zotero-itemmenu-uread-separator4"/>
 
+                <menuitem
+                    id="zotero-itemmenu-uread-updaterating"
+                    label="&zotero.uread.updaterating.label;"
+                    tooltiptext="更新豆瓣评分或知网引用数"
+                    oncommand="Zotero.uRead.Tools.updateRating()"/>
+                <menuseparator />
                 <menuitem
                     id="zotero-itemmenu-uread-fixclc"
                     label="&zotero.uread.fixclc.label;"
@@ -386,6 +449,14 @@
                 <menuitem id="zotero-collectionmenu-uread-resettranslator"
                     label="&zotero.uread.resettranslator.label;"
                     oncommand="Zotero.uRead.Plugin.resettranslator()" />
+            </menupopup>
+        </menu>
+
+        <menu class="menu-iconic" id="zotero-toolspopup-uread-option" label="&zotero.uread.option.label;">
+            <menupopup id="zotero-toolspopup-uread-menupopup">
+                <menuitem id="zotero-toolspopup-uread-option-config"
+                    label="&zotero.uread.option.config.label;"
+                    oncommand="Zotero.uRead.config()" />
             </menupopup>
         </menu>
     </popup>

@@ -26,12 +26,22 @@
 <!ENTITY zotero.uread.search.dangdang.label "当当">
 <!ENTITY zotero.uread.search.baidu.label "百度">
 <!ENTITY zotero.uread.search.google.label "谷歌">
+<!ENTITY zotero.uread.search.ebook.label "电子书">
+<!ENTITY zotero.uread.search.ebook.zlibrary.label "Z-Library">
+<!ENTITY zotero.uread.search.ebook.librarygenesis.label "Library Genesis">
+<!ENTITY zotero.uread.search.ebook.xueshu86.label "互助联盟">
+<!ENTITY zotero.uread.search.ebook.lorefree.label "LoreFree">
+<!ENTITY zotero.uread.search.ebook.yabook.label "雅书">
 
 <!ENTITY zotero.uread.tools.label "工具">
 <!ENTITY zotero.uread.expandSelectedRows.label "展开">
 <!ENTITY zotero.uread.collapseSelectedRows.label "收起">
+<!ENTITY zotero.uread.pullcatalogue.label "拉目录">
+<!ENTITY zotero.uread.tryread.label "下载正文试读/辅助页">
+<!ENTITY zotero.uread.weread.label "附加微信读书链接">
 <!ENTITY zotero.uread.clearup.label "整理">
 <!ENTITY zotero.uread.clearup.author.label "作者(整理成类似 [美]格林·哈姆(Green Hamm) 的格式)">
+<!ENTITY zotero.uread.clearup.nationality.label "作者去国籍([美]格林·哈姆 变成 格林·哈姆)">
 <!ENTITY zotero.uread.clearup.extra1.label "其他(去掉Translators: _:n...)">
 <!ENTITY zotero.uread.clearup.extra2.label "其他(去掉ZSCC: NoCitationData[s0])">
 <!ENTITY zotero.uread.clearup.tags.label "清空自动标签(非自定义标签)">
@@ -39,7 +49,10 @@
 <!ENTITY zotero.uread.clearup.abstractnote.label "摘要(•转为·)">
 <!ENTITY zotero.uread.clearup.mergecatalog.label "合并目录">
 <!ENTITY zotero.uread.clearup.mergename.label "合并姓名">
+<!ENTITY zotero.uread.clearup.clearupinitial.label "清除初步评价">
+<!ENTITY zotero.uread.clearup.clearupcomment.label "清除豆瓣短评">
 <!ENTITY zotero.uread.clearup.clearupall.label "以上所有">
+<!ENTITY zotero.uread.updaterating.label "更新豆瓣评分或知网引用数">
 <!ENTITY zotero.uread.fixclc.label "修复中图分类号">
 <!ENTITY zotero.uread.fixsubject.label "修复学科号">
 <!ENTITY zotero.uread.archive.label "复制归档(学科)">
@@ -59,3 +72,6 @@
 <!ENTITY zotero.uread.translatorscnupdatetranslator.label "通过Zotero translators 中文维护小组">
 <!ENTITY zotero.uread.ureadupdatetranslator.label "通过今日优读">
 <!ENTITY zotero.uread.resettranslator.label "重置到安装时">
+
+<!ENTITY zotero.uread.option.label "ZotuRead 选项">
+<!ENTITY zotero.uread.option.config.label "选项">

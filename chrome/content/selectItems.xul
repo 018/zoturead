@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<!--
+/* Copyright 2021 018.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+-->
+
+<!DOCTYPE overlay SYSTEM "chrome://zoterouread/locale/overlay.dtd">
+
+<dialog
+    id="zotcard-selectItems"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    orient="vertical"
+    buttons="accept,cancel"
+    ondialogaccept="ok();return false;"
+    ondialogcancel="window.close();return true;"
+    onload="onload()"
+    flex="1"
+    title="请选择"
+    width="400">
+    
+    <script src="chrome://zotero/content/include.js"/>
+    <script src="chrome://zoterouread/content/selectItems.js"/>
+
+    <vbox style="font-size: 12px" flex="1">
+        <vbox style="overflow: scroll; height: 300px;" id="items">
+        </vbox>
+        <hbox>
+            <button label="全部选中" oncommand="selectall()" />
+            <button label="全部取消" oncommand="unselectall()" />
+        </hbox>
+    </vbox>
+</dialog>

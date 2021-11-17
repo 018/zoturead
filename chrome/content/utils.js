@@ -148,8 +148,8 @@ window.Zotero.ZotuRead.Utils.loadDocumentAsync = async function (url, onDone, on
   return doc
 }
 
-window.Zotero.ZotuRead.Utils.requestAsync = async function (url) {
-  var xmlhttp = await Zotero.HTTP.request('GET', url)
+window.Zotero.ZotuRead.Utils.requestAsync = async function (url, config) {
+  var xmlhttp = await Zotero.HTTP.request('GET', url, config)
   return xmlhttp
 }
 
@@ -166,4 +166,31 @@ window.Zotero.ZotuRead.Utils.htmlToText = function (html) {
     Zotero.debug(e, 1)
     return html
   }
+}
+
+window.Zotero.ZotuRead.Utils.newCatalogue = async function (item, coverUrl, catalogue, title) {
+  let note
+  for (let index = 0; index < item.getNotes().length; index++) {
+    const noteid = item.getNotes()[index]
+    let n = Zotero.Items.get(noteid)
+    if (n.getNoteTitle() === title) {
+      note = n
+      break
+    }
+  }
+
+  let notes = '<p><strong>' + title + '</strong></p>\n<p><img src="' + coverUrl + '" alt="" style="max-width: 135px; max-height: 200px;" /></p><p>' + catalogue.replace(/(([\xA0\s]*)\n([\xA0\s]*))+/g, '<br>').replace(/\n+/g, '<br>') + '</p>'
+
+  var noteID
+  if (note) {
+    noteID = await note.saveTx()
+  } else {
+    note = new Zotero.Item('note')
+    note.parentKey = item.getField('key')
+    note.libraryID = ZoteroPane.getSelectedLibraryID()
+    noteID = await note.saveTx()
+  }
+  note.setNote(notes)
+  Zotero.debug('note.id: ' + noteID)
+  ZoteroPane.selectItem(noteID)
 }

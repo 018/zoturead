@@ -70,6 +70,39 @@ searcher.search = function (searcher, key) {
   }
 }
 
+searcher.searchEBook = function (site) {
+  var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
+  if (!zitems || zitems.length <= 0) {
+    Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
+    return
+  }
+  Zotero.debug('uRead@zitems.length: ' + zitems.length)
+
+  let item = zitems[0]
+  let isbn = item.getField('ISBN').replace(/-/g, '')
+  let title = item.getField('title').replace(/——.*$/g, '').replace(/\(.*\)$/g, '')
+
+  switch (site) {
+    case 'zlibrary':
+      Zotero.launchURL('https://1lib.us/s/' + isbn)
+      break
+    case 'librarygenesis':
+      Zotero.launchURL('https://libgen.rs/search.php?req=' + isbn + '&open=0&res=25&view=simple&phrase=1&column=identifier')
+      break
+    case 'xueshu86':
+      Zotero.launchURL('https://www.readersteam.com/vip/?aff=readersteam&q=' + isbn)
+      break
+    case 'lorefree':
+      Zotero.launchURL('https://ebook2.lorefree.com/site/index?s=' + title)
+      break
+    case 'yabook':
+      Zotero.launchURL('https://yabook.org/?q=' + title)
+      break
+    default:
+      break
+  }
+}
+
 searcher._advancedSearch = function (field, value) {
   var s = new Zotero.Search()
   s.libraryID = Zotero.Libraries.userLibraryID
@@ -101,6 +134,7 @@ if (typeof window !== 'undefined') {
   // note sure about any of this
   window.Zotero.uRead.Searcher.search = function (search, key) { searcher.search(search, key) }
   window.Zotero.uRead.Searcher.searchAuthor = function (search, author) { searcher.searchAuthor(search, author) }
+  window.Zotero.uRead.Searcher.searchEBook = function (site) { searcher.searchEBook(site) }
 } else {
   Zotero.debug('uRead@window is null.')
 }

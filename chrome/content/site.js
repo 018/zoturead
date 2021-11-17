@@ -82,37 +82,17 @@ site.refresh = async function () {
               if (json.resultcode !== 1) {
                 return
               }
-              let notes = '<p><strong>目录</strong></p>\n<p><img src="' + cover_url + '" alt="" style="max-width: 135px; max-height: 200px;" /></p><p>'
+
+              let catalogue = ''
               let maxtier = 1
               for (let content of json.data) {
                 maxtier = Math.max(content.tier, maxtier)
               }
               for (let content of json.data) {
-                notes += '　'.repeat(content.tier - 1) + (maxtier > 1 && content.tier === 1 ? '<b>' : '') + content.content + (maxtier > 1 && content.tier === 1 ? '</b>' : '') + '<br >'
+                catalogue += '　'.repeat(content.tier - 1) + (maxtier > 1 && content.tier === 1 ? '<b>' : '') + content.content + (maxtier > 1 && content.tier === 1 ? '</b>' : '') + '<br >'
               }
-              notes += '</p>'
+              Zotero.ZotuRead.Utils.newCatalogue(item, cover_url, catalogue, '目录')
 
-              let note
-              for (let index = 0; index < item.getNotes().length; index++) {
-                const noteid = item.getNotes()[index]
-                note = Zotero.Items.get(noteid)
-                if (note.getNoteTitle() === '目录') {
-                  break
-                }
-              }
-
-              if (note) {
-                note.setNote(notes)
-                note.saveTx()
-                Zotero.debug('uRead@setNote' + note.getNote())
-              } else {
-                note = new Zotero.Item('note')
-                note.libraryID = ZoteroPane.getSelectedLibraryID()
-                note.parentKey = item.getField('key')
-                note.setNote(notes)
-                note.saveTx()
-                Zotero.debug('uRead@addNote' + note.getNote())
-              }
               pw.addLines(item.getField('title'), `chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
             } else if (request.status === 0) {
               pw.addLines(`抓取 ${item.getField('title')} 目录失败 - 网络错误。`, `chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
@@ -281,32 +261,59 @@ site.translate = function () {
   }
   Zotero.debug('uRead@zitems.length: ' + zitems.length)
 
-  let item = zitems[0]
+  let pw = new Zotero.ProgressWindow()
+  pw.changeHeadline('转化为今日优读')
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.choose', zitems.length))
+  pw.show()
 
-  let isbn = item.getField('ISBN').replace(/-/g, '')
-  let url = 'http://api.uread.today/master/anon/book/get?isbn=' + isbn
-  Zotero.HTTP.doGet(url, function (request) {
-    if (request.status === 200) {
-      Zotero.debug('uRead@ret: ' + request.responseText)
-      let json = JSON.parse(request.responseText)
-      if (json && json.resultcode === 1) {
-        let doi = json.data
-        let oldUrl = item.getField('url')
-        let newUrl = 'http://uread.today/book?doi=' + doi + '&src=' + oldUrl
-        item.setField('url', newUrl)
-        item.saveTx()
-        Zotero.debug(oldUrl + ' >>> ' + newUrl)
-        Zotero.ZotuRead.Utils.success('转化成功。')
-      } else {
-        Zotero.ZotuRead.Utils.warning(`未收录${isbn}，请先收录。`)
-        Zotero.launchURL('http://uread.today/embody?isbn=' + isbn)
-      }
-    } else if (request.status === 0) {
-      Zotero.ZotuRead.Utils.warning(`${request.status} - 网络错误。`)
-    } else {
-      Zotero.ZotuRead.Utils.warning(`${request.status} - ${request.statusText}`)
+  for (const item of zitems) {
+    if (item.getField('url').startsWith('http://uread.today')) {
+      let itemProgress = new pw.ItemProgress(
+        `chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`,
+        `${item.getField('title')}，无需转化。`
+      )
+      itemProgress.setProgress(100)
+      continue
     }
-  }.bind(this))
+    let itemProgress = new pw.ItemProgress(
+      `chrome://zotero/skin/spinner-16px${Zotero.hiDPISuffix}.png`,
+      `${item.getField('title')}`
+    )
+    itemProgress.setProgress(50)
+    let isbn = item.getField('ISBN').replace(/-/g, '')
+    let url = 'http://api.uread.today/master/anon/book/get?isbn=' + isbn
+    Zotero.HTTP.doGet(url, function (request) {
+      if (request.status === 200) {
+        Zotero.debug('uRead@ret: ' + request.responseText)
+        let json = JSON.parse(request.responseText)
+        if (json && json.resultcode === 1) {
+          let doi = json.data
+          let oldUrl = item.getField('url')
+          let newUrl = 'http://uread.today/book?doi=' + doi + '&src=' + oldUrl
+          item.setField('url', newUrl)
+          item.saveTx()
+          Zotero.debug(oldUrl + ' >>> ' + newUrl)
+          itemProgress.setIcon(`chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
+          itemProgress.setProgress(100)
+          itemProgress.setText(`${item.getField('title')}，转化成功。`)
+        } else {
+          itemProgress.setIcon(`chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
+          itemProgress.setProgress(100)
+          itemProgress.setText(`${item.getField('title')}，未收录${isbn}，请先收录。`)
+          Zotero.launchURL('http://uread.today/embody?isbn=' + isbn)
+        }
+      } else if (request.status === 0) {
+        itemProgress.setIcon(`chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
+        itemProgress.setProgress(100)
+        itemProgress.setText(`${item.getField('title')}，${request.status} - 网络错误。`)
+      } else {
+        itemProgress.setIcon(`chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
+        itemProgress.setProgress(100)
+        itemProgress.setText(`${request.status} - ${request.statusText}`)
+      }
+    }.bind(this))
+  }
+  pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
 }
 
 site.restoretranslate = function () {

@@ -8,6 +8,8 @@ uread.init = function () {
   // Register the callback in Zotero as an item observer
   Zotero.debug('uRead@init ...')
 
+  this.initPrefs()
+
   document.getElementById('zotero-itemmenu').addEventListener('popupshowing', this.itemmenuPopupShowing.bind(this), false)
   document.getElementById('zotero-collectionmenu').addEventListener('popupshowing', this.collectionmenuPopupShowing.bind(this), false)
   document.getElementById('zotero-items-tree').addEventListener('select', this.itemsTreeOnSelect.bind(this), false)
@@ -19,52 +21,70 @@ uread.init = function () {
   }, false)
 }
 
+uread.initPrefs = function () {
+  var showCover = Zotero.Prefs.get('zoturead.config.show_cover')
+  if (showCover === undefined) {
+    showCover = true
+    Zotero.Prefs.set('zoturead.config.show_cover', showCover)
+  }
+}
+
 uread.itemsTreeOnSelect = function (e) {
-  var zitems = Zotero.ZotuRead.Utils.getSelectedItems('book')
-  if (zitems.length === 1) {
-    let item = zitems[0]
-    let notes = Zotero.Items.get(item.getNotes())
-    let p = document.getElementById('cover-wrap')
-    if (!p) {
-      p = document.createElement('p')
-      p.setAttribute('id', 'cover-wrap')
-      p.style.textAlign = 'center'
-      p.style.width = '100%'
-      p.style.margin = '10px'
-      let image = document.createElement('image')
-      image.setAttribute('id', 'cover-image')
-      image.style.maxWidth = '135px'
-      image.style.maxHeight = '150px'
-      p.append(image)
-      document.getElementById('zotero-editpane-item-box').parentElement.prepend(p)
-      document.getElementById('zotero-editpane-item-box').parentElement.style.display = 'flex'
-      document.getElementById('zotero-editpane-item-box').parentElement.style.flexDirection = 'column'
-      document.getElementById('zotero-editpane-item-box').parentElement.style.alignItems = 'stretch'
-    }
-    let src
-    for (const note of notes) {
-      if (note.getNoteTitle() === '目录') {
-        let match = note.getNote().match(/src=".*?"/g)
-        if (match) {
-          src = match[0].replace('src=', '').replace('"', '')
-          break
+  var showCover = Zotero.Prefs.get('zoturead.config.show_cover')
+  var hidden = false
+  if (showCover) {
+    var zitems = Zotero.ZotuRead.Utils.getSelectedItems('book')
+    if (zitems.length === 1) {
+      let item = zitems[0]
+      let notes = Zotero.Items.get(item.getNotes())
+      let p = document.getElementById('cover-wrap')
+      if (!p) {
+        p = document.createElement('p')
+        p.setAttribute('id', 'cover-wrap')
+        p.style.textAlign = 'center'
+        p.style.width = '100%'
+        p.style.margin = '10px'
+        let image = document.createElement('image')
+        image.setAttribute('id', 'cover-image')
+        image.style.maxWidth = '135px'
+        image.style.maxHeight = '150px'
+        p.append(image)
+        document.getElementById('zotero-editpane-item-box').parentElement.prepend(p)
+        document.getElementById('zotero-editpane-item-box').parentElement.style.display = 'flex'
+        document.getElementById('zotero-editpane-item-box').parentElement.style.flexDirection = 'column'
+        document.getElementById('zotero-editpane-item-box').parentElement.style.alignItems = 'stretch'
+      }
+      let src
+      for (const note of notes) {
+        if (note.getNoteTitle() === '目录') {
+          let match = note.getNote().match(/src=".*?"/g)
+          if (match) {
+            src = match[0].replace('src=', '').replace('"', '')
+            break
+          }
         }
       }
-    }
-    let image = document.getElementById('cover-image')
-    if (src) {
-      image.setAttribute('src', src)
-      p.hidden = false
-      document.getElementById('zotero-editpane-item-box').parentElement.style.display = 'flex'
-      document.getElementById('zotero-editpane-item-box').parentElement.style.flexDirection = 'column'
-      document.getElementById('zotero-editpane-item-box').parentElement.style.alignItems = 'stretch'
+      let image = document.getElementById('cover-image')
+      if (src) {
+        image.setAttribute('src', src)
+        p.hidden = false
+        document.getElementById('zotero-editpane-item-box').parentElement.style.display = 'flex'
+        document.getElementById('zotero-editpane-item-box').parentElement.style.flexDirection = 'column'
+        document.getElementById('zotero-editpane-item-box').parentElement.style.alignItems = 'stretch'
+      } else {
+        p.hidden = true
+        document.getElementById('zotero-editpane-item-box').parentElement.style.display = ''
+        document.getElementById('zotero-editpane-item-box').parentElement.style.flexDirection = ''
+        document.getElementById('zotero-editpane-item-box').parentElement.style.alignItems = ''
+      }
     } else {
-      p.hidden = true
-      document.getElementById('zotero-editpane-item-box').parentElement.style.display = ''
-      document.getElementById('zotero-editpane-item-box').parentElement.style.flexDirection = ''
-      document.getElementById('zotero-editpane-item-box').parentElement.style.alignItems = ''
+      hidden = true
     }
   } else {
+    hidden = true
+  }
+
+  if (hidden) {
     let p = document.getElementById('cover-wrap')
     if (p) {
       p.hidden = true
@@ -150,7 +170,6 @@ uread.itemmenuPopupShowing = function () {
     document.getElementById('zotero-itemmenu-uread-subjectinfo').label = subject ? `查看 ${subject} 信息` : '查看学科信息'
     if (!Zotero.uRead.Site.checkUrl(url)) {
       // 非今日优读链接
-      document.getElementById('zotero-itemmenu-uread-translate').disabled = false
       document.getElementById('zotero-itemmenu-uread-restoretranslate').disabled = true
       document.getElementById('zotero-itemmenu-uread-embody').hidden = false
       document.getElementById('zotero-itemmenu-uread-refresh').hidden = true
@@ -158,7 +177,6 @@ uread.itemmenuPopupShowing = function () {
       document.getElementById('zotero-itemmenu-uread-publisherinfo').disabled = !publisher
       document.getElementById('zotero-itemmenu-uread-publisherinfo').label = `搜索 ${publisher ? publisher : '出版社'} 信息`
     } else {
-      document.getElementById('zotero-itemmenu-uread-translate').disabled = true
       document.getElementById('zotero-itemmenu-uread-restoretranslate').disabled = !Zotero.ZotuRead.Utils.getParam(url, 'src')
       document.getElementById('zotero-itemmenu-uread-embody').hidden = true
       document.getElementById('zotero-itemmenu-uread-refresh').hidden = false
@@ -212,6 +230,18 @@ uread.itemmenuPopupShowing = function () {
   }
 }
 
+uread.config = function () {
+  /*Zotero.ZotuRead.Utils.warning(`在接下来的about:config窗口中进行配置。
+  zoturead.config.show_cover\t\t\t\t在条目信息栏上是否显示书籍封面。
+  ...
+  
+详情请访问官网: https://github.com/018/zoturead`)
+
+  Zotero.openInViewer('about:config?filter=zotero.zoturead')*/
+
+  window.openDialog('chrome://zoterouread/content/option.html', 'option', `chrome,dialog,resizable=no,centerscreen,menubar=no`)
+}
+
 if (typeof window !== 'undefined') {
   window.addEventListener('load', function (e) { uread.init() }, false)
 
@@ -219,6 +249,8 @@ if (typeof window !== 'undefined') {
   // Can't imagine those to not exist tbh
   if (!window.Zotero) window.Zotero = {}
   if (!window.Zotero.uRead) window.Zotero.uRead = {}
+
+  window.Zotero.uRead.config = function () { uread.config() }
   // note sure about any of this
 } else {
   Zotero.debug('uRead@window is null.')

@@ -24,25 +24,45 @@ collection.initCollection = function () {
       let json = JSON.parse(request.responseText)
       if (json && json.resultcode === 1 && json.data.length > 0) {
         let exists = 0
+        let io = {
+          dataIn: []
+        }
         for (let index = 0; index < json.data.length; index++) {
           const element = json.data[index]
-          let ret = await this.searchCollection(collection.key, element.code, element.name)
-          Zotero.debug('uRead@parentKey: ' + ret.collection + ', added: ' + ret.added)
-          if (!ret.added) {
-            exists++
-            Zotero.debug('uRead@exists: ' + exists)
-          }
-          //element.children.forEach(async function (c) {
-          //  await this._newCollection(subcollection.key, `${c.code}. ${c.name}`)
-          //}.bind(this))
+          io.dataIn.push({
+            id: element.code,
+            label: `${element.code}. ${element.name}`,
+            name: element.name,
+            checked: true
+          })
         }
-        Zotero.debug('uRead@exists: ' + exists)
-        if (exists === json.data.length) {
-          Zotero.ZotuRead.Utils.warning(`${collection.name}所有子学科都已经存在，无需新增。`)
-        } else if (exists === 0) {
-          Zotero.ZotuRead.Utils.success(`${collection.name}子学科全部新增成功。`)
-        } else {
-          Zotero.ZotuRead.Utils.success(`${collection.name}子学科成功新增${json.data.length - exists}个，有${exists}已经存在。`)
+
+        window.openDialog('chrome://zoterouread/content/selectItems.xul', 'selectItems', 'chrome,modal,centerscreen,scrollbars', io)
+        var _this = this
+        if (io.dataOut) {
+          io.dataOut.forEach(async function (element) {
+            let code = element.id
+            let name = element.name
+
+            let ret = await _this.searchCollection(collection.key, code, name)
+            Zotero.debug('uRead@parentKey: ' + ret.collection + ', added: ' + ret.added)
+            if (!ret.added) {
+              exists++
+              Zotero.debug('uRead@exists: ' + exists)
+            }
+            //element.children.forEach(async function (c) {
+            //  await this._newCollection(subcollection.key, `${c.code}. ${c.name}`)
+            //}.bind(this))
+          })
+
+          Zotero.debug('uRead@exists: ' + exists)
+          if (exists === io.dataOut.length) {
+            Zotero.ZotuRead.Utils.warning(`${collection.name}所有子学科都已经存在，无需新增。`)
+          } else if (exists === 0) {
+            Zotero.ZotuRead.Utils.success(`${collection.name}成功新增${io.dataOut.length}个子学科。`)
+          } else {
+            Zotero.ZotuRead.Utils.success(`${collection.name}成功新增${io.dataOut.length - exists}个子学科，有${exists}已经存在。`)
+          }
         }
       } else {
         Zotero.ZotuRead.Utils.warning(`${collection.name}无子学科。`)
@@ -76,25 +96,45 @@ collection.initClcCollection = function () {
       let json = JSON.parse(request.responseText)
       if (json && json.resultcode === 1 && json.data.length > 0) {
         let exists = 0
+        let io = {
+          dataIn: []
+        }
         for (let index = 0; index < json.data.length; index++) {
           const element = json.data[index]
-          let ret = await this.searchCollection(collection.key, element.code, element.name)
-          Zotero.debug('uRead@parentKey: ' + ret.collection + ', added: ' + ret.added)
-          if (!ret.added) {
-            exists++
-            Zotero.debug('uRead@exists: ' + exists)
-          }
-          //element.children.forEach(async function (c) {
-          //  await this._newCollection(subcollection.key, `${c.code}. ${c.name}`)
-          //}.bind(this))
+          io.dataIn.push({
+            id: element.code,
+            label: `${element.code}. ${element.name}`,
+            name: element.name,
+            checked: true
+          })
         }
-        Zotero.debug('uRead@exists: ' + exists)
-        if (exists === json.data.length) {
-          Zotero.ZotuRead.Utils.warning(`${collection.name}所有子中图分类都已经存在，无需新增。`)
-        } else if (exists === 0) {
-          Zotero.ZotuRead.Utils.success(`${collection.name}子中图分类全部新增成功。`)
-        } else {
-          Zotero.ZotuRead.Utils.success(`${collection.name}子中图分类成功新增${json.data.length - exists}个，有${exists}已经存在。`)
+
+        window.openDialog('chrome://zoterouread/content/selectItems.xul', 'selectItems', 'chrome,modal,centerscreen,scrollbars', io)
+        var _this = this
+        if (io.dataOut) {
+          io.dataOut.forEach(async function (element) {
+            let code = element.id
+            let name = element.name
+
+            let ret = await _this.searchCollection(collection.key, code, name)
+            Zotero.debug('uRead@parentKey: ' + ret.collection + ', added: ' + ret.added)
+            if (!ret.added) {
+              exists++
+              Zotero.debug('uRead@exists: ' + exists)
+            }
+            //element.children.forEach(async function (c) {
+            //  await this._newCollection(subcollection.key, `${c.code}. ${c.name}`)
+            //}.bind(this))
+          })
+
+          Zotero.debug('uRead@exists: ' + exists)
+          if (exists === io.dataOut.length) {
+            Zotero.ZotuRead.Utils.warning(`${collection.name}所有子中图分类都已经存在，无需新增。`)
+          } else if (exists === 0) {
+            Zotero.ZotuRead.Utils.success(`${collection.name}成功新增${io.dataOut.length}个子中图分类。`)
+          } else {
+            Zotero.ZotuRead.Utils.success(`${collection.name}成功新增${io.dataOut.length - exists}个子中图分类，有${exists}已经存在。`)
+          }
         }
       } else {
         Zotero.ZotuRead.Utils.warning(`${collection.name}无子中图分类。`)
@@ -119,26 +159,6 @@ collection.selectnoncollection = function () {
       Zotero.ZotuRead.Utils.success(`恭喜你，所有条目都已归档。`)
     } else {
       ZoteroPane.selectItems(ids, 1)
-    }
-  })
-}
-
-collection.updatetranslator = function () {
-  let fp = Cc["@mozilla.org/filepicker;1"].createInstance(Ci.nsIFilePicker)
-  fp.init(window, '选择', 3) // 多选
-  fp.appendFilter('Translators', '*.js')
-  fp.open(returnConstant => {
-    if (returnConstant === 0) {
-      let files = fp.files
-      let count = 0
-      while (files.hasMoreElements()) {
-        let file = files.getNext()
-        file.QueryInterface(Ci.nsIFile)
-        file.copyTo(Zotero.getTranslatorsDirectory(), file.leafName)
-        count++
-      }
-      Zotero.Translators.reinit()
-      Zotero.alert(window, Zotero.getString('general.success'), `更新成功 ${count} 个Translator。\n只需要在浏览器执行「Advanced」-「Update Translators」即可，无需重启Zotero。`)
     }
   })
 }
@@ -225,7 +245,6 @@ if (typeof window !== 'undefined') {
   window.Zotero.uRead.Collection.initCollection = function () { collection.initCollection() }
   window.Zotero.uRead.Collection.initClcCollection = function () { collection.initClcCollection() }
   window.Zotero.uRead.Collection.selectnoncollection = function () { collection.selectnoncollection() }
-  window.Zotero.uRead.Collection.updatetranslator = function () { collection.updatetranslator() }
 
   window.Zotero.uRead.Collection.loopSearchCollection = function (parentKey, subjectcode) { return collection.loopSearchCollection(parentKey, subjectcode) }
   window.Zotero.uRead.Collection.searchCollection = async function (parentKey, subjectcode, subjectname) {
