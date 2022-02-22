@@ -13,7 +13,7 @@ var io = window.arguments && window.arguments.length > 0 ? window.arguments[0] :
 io = Object.assign(io, { dataOut: false })
 
 function onload () {
-  io.dataIn.forEach((element, index) => {
+  io.dataIn.items.forEach((element, index) => {
     let checkbox = document.createElement('checkbox')
     checkbox.setAttribute('id', element.id)
     checkbox.setAttribute('item-index', index)
@@ -29,7 +29,7 @@ function ok () {
   document.querySelectorAll('#items checkbox').forEach(checkbox => {
     if (checkbox.checked) {
       let index = parseInt(checkbox.getAttribute('item-index'))
-      dataOut.push(io.dataIn[index])
+      dataOut.push(io.dataIn.items[index])
     }
   })
   if (dataOut.length > 0) {

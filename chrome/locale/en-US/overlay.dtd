@@ -56,10 +56,8 @@
 <!ENTITY zotero.uread.updaterating.label "Update Douban / CNKI Rating">
 <!ENTITY zotero.uread.fixclc.label "Fix Clc">
 <!ENTITY zotero.uread.fixsubject.label "Fix Subject">
-<!ENTITY zotero.uread.archive.label "Copy Archive By Subject">
-<!ENTITY zotero.uread.movearchive.label "Move Archive By Subject">
-<!ENTITY zotero.uread.archivebyclc.label "Copy Archive By Clc">
-<!ENTITY zotero.uread.movearchivebyclc.label "Move Archive By Clc">
+<!ENTITY zotero.uread.archive.label "Archive By Subject">
+<!ENTITY zotero.uread.archivebyclc.label "Archive By Clc">
 <!ENTITY zotero.uread.location.label "Location">
 
 <!ENTITY zotero.uread.initCollection.label "Init Subject Collection">

@@ -23,14 +23,10 @@
     width="400">
     
     <script src="chrome://zotero/content/include.js"/>
-    <script src="chrome://zoterouread/content/selectItems.js"/>
+    <script src="chrome://zoterouread/content/selectItem.js"/>
 
     <vbox style="font-size: 12px;" flex="1">
-        <vbox style="overflow: scroll; height: 300px;" id="items">
-        </vbox>
-        <hbox>
-            <button label="全部选中" oncommand="selectall()" />
-            <button label="全部取消" oncommand="unselectall()" />
-        </hbox>
+        <radiogroup style="overflow: scroll; height: 300px;" id="items">
+        </radiogroup>
     </vbox>
 </dialog>

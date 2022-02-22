@@ -20,17 +20,18 @@
     onload="onload()"
     flex="1"
     title="请选择"
-    width="400">
+    width="600">
     
     <script src="chrome://zotero/content/include.js"/>
-    <script src="chrome://zoterouread/content/selectItems.js"/>
+    <script src="chrome://zoterouread/content/archive.js"/>
 
     <vbox style="font-size: 12px;" flex="1">
-        <vbox style="overflow: scroll; height: 300px;" id="items">
-        </vbox>
-        <hbox>
-            <button label="全部选中" oncommand="selectall()" />
-            <button label="全部取消" oncommand="unselectall()" />
-        </hbox>
+        <description id="description"></description>
+        <radiogroup style="overflow: scroll; height: 150px;" id="items">
+        </radiogroup>
+        <radiogroup orient="horizontal">
+            <radio id="copy" label="复制归档"></radio>
+            <radio id="move" label="移动归档" selected="true"></radio>
+        </radiogroup>
     </vbox>
 </dialog>

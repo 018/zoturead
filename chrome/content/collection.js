@@ -25,11 +25,13 @@ collection.initCollection = function () {
       if (json && json.resultcode === 1 && json.data.length > 0) {
         let exists = 0
         let io = {
-          dataIn: []
+          dataIn: {
+            items: []
+          }
         }
         for (let index = 0; index < json.data.length; index++) {
           const element = json.data[index]
-          io.dataIn.push({
+          io.dataIn.items.push({
             id: element.code,
             label: `${element.code}. ${element.name}`,
             name: element.name,
@@ -97,11 +99,13 @@ collection.initClcCollection = function () {
       if (json && json.resultcode === 1 && json.data.length > 0) {
         let exists = 0
         let io = {
-          dataIn: []
+          dataIn: {
+            items: []
+          }
         }
         for (let index = 0; index < json.data.length; index++) {
           const element = json.data[index]
-          io.dataIn.push({
+          io.dataIn.items.push({
             id: element.code,
             label: `${element.code}. ${element.name}`,
             name: element.name,

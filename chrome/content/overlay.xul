@@ -384,19 +384,11 @@
                     id="zotero-itemmenu-uread-archive"
                     label="&zotero.uread.archive.label;"
                     oncommand="Zotero.uRead.Tools.archive()"/>
-                <menuitem
-                    id="zotero-itemmenu-uread-movearchive"
-                    label="&zotero.uread.movearchive.label;"
-                    oncommand="Zotero.uRead.Tools.movearchive()"/>
 
                 <menuitem
                     id="zotero-itemmenu-uread-archivebyclc"
                     label="&zotero.uread.archivebyclc.label;"
                     oncommand="Zotero.uRead.Tools.archivebyclc()"/>
-                <menuitem
-                    id="zotero-itemmenu-uread-movearchivebyclc"
-                    label="&zotero.uread.movearchivebyclc.label;"
-                    oncommand="Zotero.uRead.Tools.movearchivebyclc()"/>
 
                 <menuseparator id="zotero-itemmenu-uread-separator5"/>
 

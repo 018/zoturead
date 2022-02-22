@@ -10,15 +10,31 @@ uread.init = function () {
 
   this.initPrefs()
 
+  if (Zotero.ZotCard.Utils.version() >= 6) {
+    Zotero.debug(`zotcard@addListener onSelect: ${Zotero.ZotCard.Utils.version()}`)
+    var interval1 = setInterval(() => {
+      if (ZoteroPane.itemsView) {
+        ZoteroPane.itemsView.onSelect.addListener(this.itemsTreeOnSelect);
+        clearInterval(interval1)
+      }
+    }, 1000);
+  } else {
+    document.getElementById('zotero-items-tree').addEventListener('select', this.itemsTreeOnSelect.bind(this), false)
+  }
+
   document.getElementById('zotero-itemmenu').addEventListener('popupshowing', this.itemmenuPopupShowing.bind(this), false)
   document.getElementById('zotero-collectionmenu').addEventListener('popupshowing', this.collectionmenuPopupShowing.bind(this), false)
-  document.getElementById('zotero-items-tree').addEventListener('select', this.itemsTreeOnSelect.bind(this), false)
 
   window.addEventListener('unload', function (e) {
     document.getElementById('zotero-itemmenu').removeEventListener('popupshowing', this.itemmenuPopupShowing.bind(this), false)
     document.getElementById('zotero-collectionmenu').removeEventListener('popupshowing', this.collectionmenuPopupShowing.bind(this), false)
-    document.getElementById('zotero-items-tree').removeEventListener('select', this.itemsTreeOnSelect.bind(this), false)
-  }, false)
+    
+    if (Zotero.ZotCard.Utils.version() >= 6) {
+      ZoteroPane.itemsView.onSelect.removeListener(this.itemsTreeOnSelect);
+    } else {
+      document.getElementById('zotero-items-tree').removeEventListener('select', this.itemsTreeOnSelect.bind(this), false)
+    }
+  }.bind(this), false)
 }
 
 uread.initPrefs = function () {
@@ -128,6 +144,7 @@ uread.itemmenuPopupShowing = function () {
   var mutiBook = zitems && zitems.length > 0
   var singleBook = zitems && zitems.length === 1
   var single = ZoteroPane.getSelectedItems().length === 1
+  Zotero.debug('zoturead@itemmenuPopupShowing single is ' + single)
 
   document.querySelectorAll('.single-select-book').forEach(element => {
     element.disabled = !singleBook
@@ -197,13 +214,16 @@ uread.itemmenuPopupShowing = function () {
       document.getElementById('zotero-itemmenu-uread-publisherinfo').before(authorSubmenu)
 
       document.querySelectorAll('.series').forEach(function (element) {
-        let searcher = element.getAttribute('id').replace('zotero-itemmenu-uread-search-', '').replace('-series', '')
-        let authorSubmenu = document.createElement('menuitem')
-        authorSubmenu.setAttribute('author', author)
-        authorSubmenu.setAttribute('class', 'dynamic-author')
-        authorSubmenu.setAttribute('label', `搜索 ${author} 书籍`)
-        authorSubmenu.onclick = function (e) { Zotero.uRead.Searcher.searchAuthor(searcher, e.target.getAttribute('author')) }.bind(this)
-        element.before(authorSubmenu)
+        let id = element.getAttribute('id')
+        if (id) {
+          let searcher = id.replace('zotero-itemmenu-uread-search-', '').replace('-series', '')
+          let authorSubmenu = document.createElement('menuitem')
+          authorSubmenu.setAttribute('author', author)
+          authorSubmenu.setAttribute('class', 'dynamic-author')
+          authorSubmenu.setAttribute('label', `搜索 ${author} 书籍`)
+          authorSubmenu.onclick = function (e) { Zotero.uRead.Searcher.searchAuthor(searcher, e.target.getAttribute('author')) }.bind(this)
+          element.before(authorSubmenu)
+        }
       }.bind(this))
     }
 
@@ -211,18 +231,21 @@ uread.itemmenuPopupShowing = function () {
   }
 
   if (single) {
+    Zotero.debug('zoturead@selectItem location.')
     let locationdisabled = ZoteroPane.getSelectedItems()[0].getCollections().length === 0
     document.getElementById('zotero-itemmenu-uread-location').disabled = locationdisabled
     if (!locationdisabled) {
+      Zotero.debug('zoturead@selectItem locationdisabled is ' + locationdisabled)
       let selectItem = ZoteroPane.getSelectedItems()[0]
       selectItem.getCollections().forEach(collection => {
+        Zotero.debug('zoturead@selectItem collection is ' + collection)
         var submenu = document.createElement('menuitem')
         submenu.setAttribute('item-id', selectItem.id)
         submenu.setAttribute('class', 'dynamic-location')
         submenu.setAttribute('collection-id', collection)
-        submenu.setAttribute('disabled', ZoteroPane.getSelectedCollection().id === collection)
+        submenu.setAttribute('disabled', ZoteroPane.getSelectedCollection() && ZoteroPane.getSelectedCollection().id === collection)
         let lable = Zotero.uRead.Tools.showPath(collection)
-        submenu.setAttribute('label', `${lable}${ZoteroPane.getSelectedCollection().id === collection ? ('(当前)') : ''}`)
+        submenu.setAttribute('label', `${lable}${ZoteroPane.getSelectedCollection() && ZoteroPane.getSelectedCollection().id === collection ? ('(当前)') : ''}`)
         submenu.onclick = function (e) { Zotero.uRead.Tools.location(e.target.getAttribute('collection-id'), e.target.getAttribute('item-id')) }.bind(this)
         document.getElementById('zotero-itemmenu-uread-location-menupopup').appendChild(submenu)
       })

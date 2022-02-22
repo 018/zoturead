@@ -589,51 +589,53 @@ tools.createId = function (bookId) {
 
 tools.clearupAll = function () {
   var io = {
-    dataIn: [{
-      id: 'clearupAuthor',
-      label: '作者(整理成类似 [美]格林·哈姆(Green Hamm) 的格式)',
-      checked: true
-    }, {
-      id: 'clearupNationality',
-      label: '作者去国籍([美]格林·哈姆 变成 格林·哈姆)',
-      checked: true
-    }, {
-      id: 'clearupExtra1',
-      label: '其他(去掉Translators: _:n...)',
-      checked: true
-    }, {
-      id: 'clearupExtra2',
-      label: '其他(去掉ZSCC: NoCitationData[s0])',
-      checked: true
-    }, {
-      id: 'clearuptags',
-      label: '清空自动标签(非自定义标签)',
-      checked: true
-    }, {
-      id: 'clearupTitle',
-      label: '标题(全角括号转为半角)',
-      checked: true
-    }, {
-      id: 'clearupAbstractNote',
-      label: '摘要(•转为·)',
-      checked: true
-    }, {
-      id: 'mergecatalog',
-      label: '合并目录',
-      checked: true
-    }, {
-      id: 'mergename',
-      label: '合并姓名',
-      checked: true
-    }, {
-      id: 'clearupinitial',
-      label: '清除初步评价',
-      checked: true
-    }, {
-      id: 'clearupcomment',
-      label: '清除豆瓣短评',
-      checked: true
-    }]
+    dataIn: {
+      items: [{
+        id: 'clearupAuthor',
+        label: '作者(整理成类似 [美]格林·哈姆(Green Hamm) 的格式)',
+        checked: true
+      }, {
+        id: 'clearupNationality',
+        label: '作者去国籍([美]格林·哈姆 变成 格林·哈姆)',
+        checked: true
+      }, {
+        id: 'clearupExtra1',
+        label: '其他(去掉Translators: _:n...)',
+        checked: true
+      }, {
+        id: 'clearupExtra2',
+        label: '其他(去掉ZSCC: NoCitationData[s0])',
+        checked: true
+      }, {
+        id: 'clearuptags',
+        label: '清空自动标签(非自定义标签)',
+        checked: true
+      }, {
+        id: 'clearupTitle',
+        label: '标题(全角括号转为半角)',
+        checked: true
+      }, {
+        id: 'clearupAbstractNote',
+        label: '摘要(•转为·)',
+        checked: true
+      }, {
+        id: 'mergecatalog',
+        label: '合并目录',
+        checked: true
+      }, {
+        id: 'mergename',
+        label: '合并姓名',
+        checked: true
+      }, {
+        id: 'clearupinitial',
+        label: '清除初步评价',
+        checked: true
+      }, {
+        id: 'clearupcomment',
+        label: '清除豆瓣短评',
+        checked: true
+      }]
+    }
   }
   window.openDialog('chrome://zoterouread/content/selectItems.xul', 'selectItems', 'chrome,modal,dialog,centerscreen,scrollbars', io)
 
@@ -998,6 +1000,7 @@ tools.mergename = function (pw) {
           creator.lastName = creator.lastName + creator.firstName
         }
         creator.firstName = ''
+        creator.fieldMode = 1
         ret = true
       }
     }
@@ -1249,23 +1252,11 @@ tools.fixsubject = async function () {
   pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
 }
 
-tools.movearchive = async function () {
-  await this._archive(true)
-}
-
-tools.archive = async function () {
-  await this._archive(false)
-}
-
 tools.movearchivebyclc = async function () {
   await this._archivebyclc(true)
 }
 
 tools.archivebyclc = async function () {
-  await this._archivebyclc(false)
-}
-
-tools._archivebyclc = async function (overlay) {
   var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
     Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
@@ -1288,39 +1279,14 @@ tools._archivebyclc = async function (overlay) {
         Zotero.debug('uRead@doGet: ' + request.responseText)
         let json = JSON.parse(request.responseText)
         if (json && json.resultcode === 1) {
-          let clcObj = json.data.clc
           if (json.data.clc) {
-            let clcs = [...clcObj.parents]
-            clcs.push(clcObj)
-            Zotero.debug('uRead@clcs: ' + clcs.length)
-
-            let collection = Zotero.uRead.Collection.loopSearchCollection(undefined, clcs[0].code)
-            if (!collection) {
-              // 未找到
-              Zotero.debug('uRead@未找到: ' + index)
-              pw.addLines(`${zitem.getField('title')}，未找到${clcs[0].code}的学科目录。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
-            } else {
-              for (let index = 1; index < clcs.length; index++) {
-                const element = clcs[index]
-                let code = element.code
-                let name = element.name
-                let ret = await Zotero.uRead.Collection.searchCollection(collection.key, code, name)
-                collection = ret.collection
-                Zotero.debug(`uRead@Zotero.uRead.Collection.searchCollection: ${collection.id}`)
+            this._archive(zitem, json.data.clc, function (collection) {
+              if (collection) {
+                pw.addLines(`${zitem.getField('title')} 已归档至 ${Zotero.uRead.Tools.showPath(collection.id)}`, `chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
+              } else {
+                pw.addLines(`${zitem.getField('title')}，未找到${clcs[0].code}的中图目录。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
               }
-
-              let collections = []
-              if (!overlay) {
-                collections.push(...zitem.getCollections())
-              }
-              Zotero.debug(`uRead@collections: ${collections.join(',')}`)
-              collections.push(collection.id)
-              Zotero.debug(`uRead@collections: ${collections.join(',')}`)
-              zitem.setCollections(collections)
-              zitem.setField('archiveLocation', clcObj.code)
-              await zitem.saveTx()
-              pw.addLines(`${zitem.getField('title')} 已归档至 ${Zotero.uRead.Tools.showPath(collection.id)}`, `chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
-            }
+            })
           } else {
             pw.addLines(`${zitem.getField('title')}，未找到学科信息。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
           }
@@ -1359,7 +1325,7 @@ tools._clcinfo = async function (clc) {
   return request
 }
 
-tools._archive = async function (overlay) {
+tools.archive = async function () {
   var zitems = Zotero.ZotuRead.Utils.getSelectedItems(['book'])
   if (!zitems || zitems.length <= 0) {
     Zotero.ZotuRead.Utils.warning(Zotero.ZotuRead.Utils.getString('uread.nonsupport'))
@@ -1384,39 +1350,15 @@ tools._archive = async function (overlay) {
           Zotero.debug('uRead@doGet: ' + request.responseText)
           let json = JSON.parse(request.responseText)
           if (json && json.resultcode === 1) {
-            let subjectObj = json.data.subject
             if (json.data.subject) {
-              let subjects = [...subjectObj.parents]
-              subjects.push(subjectObj)
-              Zotero.debug('uRead@subjects: ' + subjects.length)
-
-              let collection = Zotero.uRead.Collection.loopSearchCollection(undefined, subjects[0].code)
-              if (!collection) {
-                // 未找到
-                Zotero.debug('uRead@未找到: ' + index)
-                pw.addLines(`${zitem.getField('title')}，未找到${subjects[0].code}的学科目录。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
-              } else {
-                for (let index = 1; index < subjects.length; index++) {
-                  const element = subjects[index]
-                  let code = element.code
-                  let name = element.name
-                  let ret = await Zotero.uRead.Collection.searchCollection(collection.key, code, name)
-                  collection = ret.collection
-                  Zotero.debug(`uRead@Zotero.uRead.Collection.searchCollection: ${collection.id}`)
+              zitem.setField('archive', json.data.subject.code)
+              this._archive(zitem, json.data.subject, function (collection) {
+                if (collection) {
+                  pw.addLines(`${zitem.getField('title')} 已归档至 ${Zotero.uRead.Tools.showPath(collection.id)}`, `chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
+                } else {
+                  pw.addLines(`${zitem.getField('title')}，未找到${subjects[0].code}的学科目录。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
                 }
-
-                let collections = []
-                if (!overlay) {
-                  collections.push(...zitem.getCollections())
-                }
-                Zotero.debug(`uRead@collections: ${collections.join(',')}`)
-                collections.push(collection.id)
-                Zotero.debug(`uRead@collections: ${collections.join(',')}`)
-                zitem.setCollections(collections)
-                zitem.setField('archive', subjectObj.code)
-                await zitem.saveTx()
-                pw.addLines(`${zitem.getField('title')} 已归档至 ${Zotero.uRead.Tools.showPath(collection.id)}`, `chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
-              }
+              })
             } else {
               pw.addLines(`${zitem.getField('title')}，未找到学科信息。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
             }
@@ -1441,38 +1383,14 @@ tools._archive = async function (overlay) {
         let json = JSON.parse(request.response)
         if (json) {
           if (json.resultcode === 1) {
-            let subjectObj = json.data.subject
             if (json.data.subject) {
-              let subjects = [...subjectObj.parents]
-              subjects.push(subjectObj)
-              Zotero.debug('uRead@subjects: ' + subjects.length)
-
-              let collection = Zotero.uRead.Collection.loopSearchCollection(undefined, subjects[0].code)
-              if (!collection) {
-                // 未找到
-                Zotero.debug('uRead@未找到: ' + collection)
-                pw.addLines(`${zitem.getField('title')}，未找到${subjects[0].code}的学科目录。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
-              } else {
-                for (let index = 1; index < subjects.length; index++) {
-                  const element = subjects[index]
-                  let code = element.code
-                  let name = element.name
-                  let ret = await Zotero.uRead.Collection.searchCollection(collection.key, code, name)
-                  collection = ret.collection
-                  Zotero.debug(`uRead@Zotero.uRead.Collection.searchCollection: ${collection.id}`)
+              this._archive(zitem, json.data.subject, function (collection) {
+                if (collection) {
+                  pw.addLines(`${zitem.getField('title')} 已归档至 ${Zotero.uRead.Tools.showPath(collection.id)}`, `chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
+                } else {
+                  pw.addLines(`${zitem.getField('title')}，未找到${subjects[0].code}的学科目录。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
                 }
-
-                let collections = []
-                if (!overlay) {
-                  collections.push(...zitem.getCollections())
-                }
-                Zotero.debug(`uRead@collections: ${collections.join(',')}`)
-                collections.push(collection.id)
-                Zotero.debug(`uRead@collections: ${collections.join(',')}`)
-                zitem.setCollections(collections)
-                await zitem.saveTx()
-                pw.addLines(`${zitem.getField('title')} 已归档至 ${Zotero.uRead.Tools.showPath(collection.id)}`, `chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
-              }
+              })
             } else {
               pw.addLines(`${zitem.getField('title')}，未找到学科信息。`, `chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
             }
@@ -1492,6 +1410,82 @@ tools._archive = async function (overlay) {
     }
   }
   pw.addDescription(Zotero.ZotuRead.Utils.getString('uread.click_on_close'))
+}
+
+tools._archive = async function (zitem, obj, callback) {
+  let parents = [...obj.parents]
+  parents.push(obj)
+  Zotero.debug('uRead@parents: ' + parents.length)
+
+  let collection = Zotero.uRead.Collection.loopSearchCollection(undefined, parents[0].code)
+  if (!collection) {
+    // 未找到
+    Zotero.debug('uRead@未找到: ' + index)
+    callback()
+  } else {
+    /*
+    let subjectContents = ''
+    for (let index = 1; index < parents.length; index++) {
+      const element = parents[index]
+      let code = element.code
+      let name = element.name
+      subjectContents += `${code}. ${name} ‣`
+    }
+    subjectContents += `${obj.code}. ${obj.name} ‣`*/
+    let io = {
+      dataIn: {
+        description: `${zitem.getField('title')}`,
+        items: []
+      }
+    }
+
+    let parentPath = `${Zotero.uRead.Tools.showPath(collection.id)}`
+    for (let index = 0; index < parents.length; index++) {
+      const element = parents[index]
+      parentPath += index === 0 ? '' : ` ▸ ${element.code}. ${element.name}`
+      io.dataIn.items.push({
+        id: element.code,
+        label: parentPath,
+        name: element.name,
+        index: index,
+        selected: index === 0
+      })
+    }
+  
+    window.openDialog('chrome://zoterouread/content/archive.xul', 'selectItem', 'chrome,modal,centerscreen,scrollbars', io)
+
+    if (io.dataOut) {
+      Zotero.debug(io.dataOut.selected)
+      let collectionid
+      if (io.dataOut.selected.index === 0) {
+        collectionid = collection.id
+        Zotero.debug(`uRead@io.dataOut.selected.id: ${collectionid}`)
+      } else {
+        for (let index = 1; index <= io.dataOut.selected.index; index++) {
+          const element = parents[index]
+          let code = element.code
+          let name = element.name
+          let ret = await Zotero.uRead.Collection.searchCollection(collection.key, code, name)
+          collection = ret.collection
+          collectionid = ret.collection.id
+          Zotero.debug(`uRead@Zotero.uRead.Collection.searchCollection: ${collectionid}`)
+        }
+      }
+
+      if (collectionid) {
+        let collections = []
+        if (!io.dataOut.overlay) {
+          collections.push(...zitem.getCollections())
+        }
+        Zotero.debug(`uRead@collections: ${collections.join(',')}`)
+        collections.push(collectionid)
+        Zotero.debug(`uRead@collections: ${collections.join(',')}`)
+        zitem.setCollections(collections)
+        await zitem.saveTx()
+        callback(collection)
+      }
+    }
+  }
 }
 
 tools.location = function (collectionID, itemID) {
@@ -1749,9 +1743,7 @@ if (typeof window !== 'undefined') {
   window.Zotero.uRead.Tools.fixclc = function () { tools.fixclc() }
 
   window.Zotero.uRead.Tools.archive = function () { tools.archive() }
-  window.Zotero.uRead.Tools.movearchive = function () { tools.movearchive() }
   window.Zotero.uRead.Tools.archivebyclc = function () { tools.archivebyclc() }
-  window.Zotero.uRead.Tools.movearchivebyclc = function () { tools.movearchivebyclc() }
 
   window.Zotero.uRead.Tools.location = function (collectionID, itemID) { tools.location(collectionID, itemID) }
 
