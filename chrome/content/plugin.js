@@ -3,6 +3,15 @@ Services.scriptloader.loadSubScript('chrome://zoterouread/content/utils.js')
 let plugin = {
 }
 
+plugin.refreshtranslator = function () {
+  let pw = new Zotero.ProgressWindow()
+  pw.changeHeadline(`刷新Translator`)
+  pw.show()
+  Zotero.Translators.reinit()
+  pw.addDescription(`成功刷新本地Translator。`)
+  pw.addDescription(`只需要在浏览器执行「Advanced」-「Update Translators」即可，无需重启Zotero。`)
+}
+
 plugin.localupdatetranslator = function () {
   let fp = Cc["@mozilla.org/filepicker;1"].createInstance(Ci.nsIFilePicker)
   fp.init(window, '选择', 3) // 多选
@@ -210,6 +219,7 @@ if (typeof window !== 'undefined') {
   if (!window.Zotero.uRead.Plugin) window.Zotero.uRead.Plugin = {}
   // note sure about any of this
 
+  window.Zotero.uRead.Plugin.refreshtranslator = function () { plugin.refreshtranslator() }
   window.Zotero.uRead.Plugin.localupdatetranslator = function () { plugin.localupdatetranslator() }
   window.Zotero.uRead.Plugin.dougsocietyupdatetranslator = function () { plugin.dougsocietyupdatetranslator() }
   window.Zotero.uRead.Plugin.translatorscnupdatetranslator = function () { plugin.translatorscnupdatetranslator() }
