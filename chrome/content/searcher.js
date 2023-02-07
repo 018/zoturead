@@ -46,6 +46,10 @@ searcher.search = function (searcher, key) {
       name = '系列'
       val = item.getField(key)
       break
+    case 'note':
+      name = '笔记'
+      val = item.getField('title')
+      break
     case 'author':
       name = '作者'
       for (const element of item.getCreators()) {

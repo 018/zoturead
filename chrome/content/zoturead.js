@@ -10,8 +10,8 @@ uread.init = function () {
 
   this.initPrefs()
 
-  if (Zotero.ZotCard.Utils.version() >= 6) {
-    Zotero.debug(`zotcard@addListener onSelect: ${Zotero.ZotCard.Utils.version()}`)
+  if (Zotero.ZotuRead.Utils.version() >= 6) {
+    Zotero.debug(`zotcard@addListener onSelect: ${Zotero.ZotuRead.Utils.version()}`)
     var interval1 = setInterval(() => {
       if (ZoteroPane.itemsView) {
         ZoteroPane.itemsView.onSelect.addListener(this.itemsTreeOnSelect);
@@ -29,7 +29,7 @@ uread.init = function () {
     document.getElementById('zotero-itemmenu').removeEventListener('popupshowing', this.itemmenuPopupShowing.bind(this), false)
     document.getElementById('zotero-collectionmenu').removeEventListener('popupshowing', this.collectionmenuPopupShowing.bind(this), false)
     
-    if (Zotero.ZotCard.Utils.version() >= 6) {
+    if (Zotero.ZotuRead.Utils.version() >= 6) {
       ZoteroPane.itemsView.onSelect.removeListener(this.itemsTreeOnSelect);
     } else {
       document.getElementById('zotero-items-tree').removeEventListener('select', this.itemsTreeOnSelect.bind(this), false)
@@ -180,6 +180,9 @@ uread.itemmenuPopupShowing = function () {
     document.querySelectorAll('.series').forEach(element => {
       element.disabled = !series
       element.label = `搜索 ${series ? series : '系列'} 书籍`
+    })
+    document.querySelectorAll('.note').forEach(element => {
+      element.label = `搜索 ${title.replace(/——.*$/g, '').replace(/\(.*\)$/g, '')} 的笔记`
     })
     document.getElementById('zotero-itemmenu-uread-clcinfo').disabled = !clc
     document.getElementById('zotero-itemmenu-uread-clcinfo').label = clc ? `查看 ${clc} 信息` : '查看中图分类信息'

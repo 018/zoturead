@@ -19,6 +19,7 @@
 <!ENTITY zotero.uread.search.title.label "搜索书名">
 <!ENTITY zotero.uread.search.author.label "搜索作者">
 <!ENTITY zotero.uread.search.series.label "搜索系列">
+<!ENTITY zotero.uread.search.note.label "搜索笔记">
 <!ENTITY zotero.uread.search.zotero.label "Zotero">
 <!ENTITY zotero.uread.search.douban.label "豆瓣">
 <!ENTITY zotero.uread.search.superlib.label "全图书馆参考咨询联盟">
@@ -65,6 +66,7 @@
 
 <!ENTITY zotero.uread.updatetranslator.label "更新Translator">
 <!ENTITY zotero.uread.localupdatetranslator.label "通过本地">
+<!ENTITY zotero.uread.refreshtranslator.label "刷新">
 <!ENTITY zotero.uread.zoteroupdatetranslator.label "通过Zotero最新官方">
 <!ENTITY zotero.uread.dougsocietyupdatetranslator.label "通过道格学社">
 <!ENTITY zotero.uread.translatorscnupdatetranslator.label "通过Zotero translators 中文维护小组">

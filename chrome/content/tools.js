@@ -1144,25 +1144,27 @@ tools.updateRating = function () {
       var filename = url.match(/[?&]filename=([^&#]*)/i)
       let url0 = 'https://kns.cnki.net/kcms/detail/block/refcount.aspx?dbcode=' + dbcode[1].replace(/\d*/g, '') + '&filename=' + filename[1]
       promises.push(Zotero.HTTP.doGet(url0, function (res) {
-        if (res.status === 200) {
-          Zotero.debug(res.responseText.replace(/'/g, '"'))
-          var json = JSON.parse(res.responseText.replace(/'/g, '"'))
-          zitem.setField('extra', json.CITING)
-          zitem.saveTx()
+        if (res.status === 200 && !res.responseText && res.responseText.length > 0) {
+          Zotero.debug('zoturead@responseText: ' + res.responseText.replace(/'/g, '"') + '<end>')
+          try {
+            var json = JSON.parse(res.responseText.replace(/'/g, '"'))
+            zitem.setField('extra', json.CITING)
+            zitem.saveTx()
 
-          itemProgress.setIcon(`chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
-          itemProgress.setProgress(100)
-          itemProgress.setText(`${zitem.getField('title')}，更新知网引用数成功：${json.CITING}。`)
+            itemProgress.setIcon(`chrome://zotero/skin/tick${Zotero.hiDPISuffix}.png`)
+            itemProgress.setProgress(100)
+            itemProgress.setText(`${zitem.getField('title')}，更新知网引用数成功：${json.CITING}。`)
+          } catch (error) {
+            itemProgress.setIcon(`chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
+            itemProgress.setProgress(100)
+            itemProgress.setText(`${zitem.getField('title')}，${error}`)
+          }
         } else {
           itemProgress.setIcon(`chrome://zotero/skin/warning${Zotero.hiDPISuffix}.png`)
           itemProgress.setProgress(100)
           itemProgress.setText(`${zitem.getField('title')}，无知网引用数。`)
           Zotero.debug('no target: ' + doc.body.innerHTML)
         }
-      }).catch(function (e) {
-        itemProgress.setIcon(`chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
-        itemProgress.setProgress(100)
-        itemProgress.setText(`${zitem.getField('title')}，${e}`)
       }))
     } else {
       itemProgress.setIcon(`chrome://zotero/skin/cross${Zotero.hiDPISuffix}.png`)
@@ -1497,9 +1499,12 @@ tools.showPath = function (collectionID) {
   let collectionNames = []
   collectionNames.push(Zotero.Collections.get(collectionID).name)
   let parentID = collectionID
+  let lastCollection = Zotero.Collections.get(collectionID)
   while ((parentID = Zotero.Collections.get(parentID).parentID)) {
     collectionNames.push(Zotero.Collections.get(parentID).name)
+    lastCollection = Zotero.Collections.get(parentID)
   }
+  collectionNames.push(Zotero.Libraries.get(lastCollection.libraryID).name)
   return collectionNames.reverse().join(' ▸ ')
 }
 

@@ -6,6 +6,10 @@ window.Zotero.ZotuRead.Utils = {
   _bundle: Cc['@mozilla.org/intl/stringbundle;1'].getService(Components.interfaces.nsIStringBundleService).createBundle('chrome://zoterouread/locale/uread.properties')
 }
 
+window.Zotero.ZotuRead.Utils.version = function () {
+  return parseInt(Zotero.version.substr(0, 1))
+}
+
 window.Zotero.ZotuRead.Utils.warning = function (message) {
   Zotero.alert(null, Zotero.getString('general.warning'), message)
 }

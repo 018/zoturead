@@ -128,6 +128,11 @@
                             class="series"
                             label="&zotero.uread.search.series.label;"
                             oncommand="Zotero.uRead.Searcher.search('zotero', 'series')"/>
+                        <menuitem
+                            id="zotero-itemmenu-uread-search-zotero-note"
+                            class="note"
+                            label="&zotero.uread.search.note.label;"
+                            oncommand="Zotero.uRead.Searcher.search('zotero', 'note')"/>
                     </menupopup>
                 </menu>
                 <menu id="zotero-itemmenu-uread-search-douban" class="single-select-book" label="&zotero.uread.search.douban.label;">
@@ -421,6 +426,10 @@
 
         <menu id="zotero-collectionmenu-uread-updatetranslator" label="&zotero.uread.updatetranslator.label;">
             <menupopup id="zotero-collectionmenu-uread-updatetranslator-menupopup">
+                <menuitem id="zotero-collectionmenu-uread-refreshtranslator"
+                    label="&zotero.uread.refreshtranslator.label;"
+                    oncommand="Zotero.uRead.Plugin.refreshtranslator()" />
+                <menuseparator />
                 <menuitem id="zotero-collectionmenu-uread-localupdatetranslator"
                     label="&zotero.uread.localupdatetranslator.label;"
                     oncommand="Zotero.uRead.Plugin.localupdatetranslator()" />

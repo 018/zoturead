@@ -19,6 +19,7 @@
 <!ENTITY zotero.uread.search.title.label "Search Title">
 <!ENTITY zotero.uread.search.author.label "Search Author">
 <!ENTITY zotero.uread.search.series.label "Search Series">
+<!ENTITY zotero.uread.search.note.label "Search Note">
 <!ENTITY zotero.uread.search.zotero.label "Zotero">
 <!ENTITY zotero.uread.search.douban.label "Douban">
 <!ENTITY zotero.uread.search.superlib.label "Superlib.net">
