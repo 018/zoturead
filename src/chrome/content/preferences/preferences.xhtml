@@ -1,0 +1,63 @@
+<vbox id="zotero-zoturead-prefpane" onload="Zotero.ZotURead.Preferences.init()">
+	<hbox class="header">
+		<label>
+			<html:h1 data-l10n-id="zoturead" />
+		</label>
+	</hbox>
+
+	<groupbox class="main-section">
+		<label>
+			<html:h2 data-l10n-id="zoturead-preferences-about" />
+		</label>
+
+		<html:div>
+			<html:p data-l10n-id="zoturead-preferences-about-introduce"></html:p>
+			<html:div style="display: flex;justify-content: space-between;">
+				<html:div style="display: flex;flex-direction: column;align-items: center;">
+					<html:img width="180" src="chrome://zoturead/content/images/wechat.png"></html:img>
+					<html:span data-l10n-id="zoturead-preferences-about-joingroup"></html:span>
+				</html:div>
+				<html:div style="display: flex;flex-direction: column;align-items: center;">
+					<html:img width="300" src="chrome://zoturead/content/images/wechat-alipay.png"></html:img>
+					<html:a href="javascript:void(0)" onclick="Zotero.launchURL('https://www.buymeacoffee.com/0x18')" target="_blank">Buy Me a Coffee</html:a>
+					<html:span data-l10n-id="zoturead-preferences-about-thanks"></html:span>
+				</html:div>
+			</html:div>
+		</html:div>
+	</groupbox>
+
+	<groupbox class="main-section">
+		<label>
+			<html:h2 data-l10n-id="zoturead-preferences-site" />
+		</label>
+
+		<html:div>
+			<p><html:a href="javascript:void(0)" onclick="Zotero.launchURL('https://github.com/018/zoturead')" target="_blank">https://github.com/018/zoturead</html:a></p>
+			<html:img src="https://img.shields.io/github/stars/018/zoturead?label=Stars"></html:img>　
+			<html:img src="https://img.shields.io/github/downloads/018/zoturead/total?label=Downloads"></html:img>
+		</html:div>
+	</groupbox>
+
+	<groupbox class="main-section">
+		<vbox>
+			<checkbox data-l10n-id="zoturead-show_cover" preference="extensions.zotero.zoturead.show_cover" native="true"></checkbox>
+			<span data-l10n-id="zoturead-show_cover-message"></span>
+		</vbox>
+		<separator/>
+		<vbox>
+			<html:div class="pref-row">
+				<label data-l10n-id="zoturead-max_loaded_tabs"></label>
+				<html:input type="number" min="1" step="1" preference="extensions.zotero.zoturead.max_loaded_tabs"/>
+			</html:div>
+			<span data-l10n-id="zoturead-max_loaded_tabs-message"></span>
+		</vbox>
+	</groupbox>
+
+	<!-- <groupbox class="main-section">
+		<hbox>
+			<button data-l10n-id="zoturead-preferences-backup" oncommand="Zotero.ZotURead.Preferences.backup();"></button>
+			<button data-l10n-id="zoturead-preferences-restore" oncommand="Zotero.ZotURead.Preferences.restore();"></button>
+			<button data-l10n-id="zoturead-preferences-reset" oncommand="Zotero.ZotURead.Preferences.reset();"></button>
+		</hbox>
+	</groupbox> -->
+</vbox>

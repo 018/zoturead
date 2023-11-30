@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="chrome://zotero/content/include.js"></script>
+	<link rel="localization" href="zoturead.ftl" />
+	<link rel="stylesheet" href="../modules/common.css" />
+	<link rel="stylesheet" href="../modules/element-plus.css" />
+	<script src="../modules/vue.global.prod.js"></script>
+	<script src="../modules/element-plus.js"></script>
+	<script src="../modules/element-plus-zh-cn.js"></script>
+	<script src="../modules/element-plus-en.js"></script>
+	<script src="../modules/element-plus-zh-tw.js"></script>
+	<script src="../modules/element-plus-icons.js"></script>
+	<script src="../modules/zot-render-element-plus.js"></script>
+	<script id="jsfile"></script>
+	<script>
+		document.getElementById('jsfile').src = window.Zotero ? "select-items.js" : "select-items-dev.js"
+	</script>
+	<style>
+		body {
+			padding: 0;
+			margin: 10px;
+			font-size: 12px;
+			background-color: #FFFFFF;
+		}
+
+		.bottom {
+			display: flex;
+			justify-content: center;
+    		align-items: center;
+		}
+
+		#app {
+			width: 400px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<el-scrollbar height="500px">
+			<el-space fill>
+				<el-checkbox v-for="i in items" v-model="i.checked" :label="i.label"></el-checkbox>
+			</el-space>
+			<el-affix position="bottom" :offset="10">
+				<div class="bottom">
+					<el-button plain data-l10n-id="zoturead-selectall" @click="selectall">全选1</el-button>
+					<el-button plain data-l10n-id="zoturead-unselectall" @click="unselectall">反选1</el-button>
+					<el-divider direction="vertical"></el-divider>
+					<el-button plain data-l10n-id="zoturead-cancel" @click="cancel">取消1</el-button>
+					<el-button type="primary" plain data-l10n-id="zoturead-ok" @click="ok">确定1</el-button>
+				</div>
+			</el-affix>
+		</el-scrollbar>
+	</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="chrome://zotero/content/include.js"></script>
+	<link rel="localization" href="zoturead.ftl" />
+	<link rel="stylesheet" href="../modules/common.css" />
+	<link rel="stylesheet" href="../modules/element-plus.css" />
+	<script src="../modules/vue.global.prod.js"></script>
+	<script src="../modules/element-plus.js"></script>
+	<script src="../modules/element-plus-zh-cn.js"></script>
+	<script src="../modules/element-plus-en.js"></script>
+	<script src="../modules/element-plus-zh-tw.js"></script>
+	<script src="../modules/element-plus-icons.js"></script>
+	<script src="../modules/zot-render-element-plus.js"></script>
+	<script id="jsfile"></script>
+	<script>
+		document.getElementById('jsfile').src = window.Zotero ? "archive.js" : "archive-dev.js"
+	</script>
+	<style>
+		body {
+			padding: 0;
+			margin: 10px;
+			font-size: 12px;
+			background-color: #FFFFFF;
+		}
+
+		.bottom {
+			display: flex;
+			justify-content: center;
+    		align-items: center;
+			margin: 20px;
+		}
+
+		#app {
+			width: 300px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<el-space direction="vertical" fill>
+			<span>{{desc}}</span>
+			<el-scrollbar height="300px">
+				<el-space fill>
+					<el-radio-group v-model="selectedIndex" class="ml-4">
+						<el-radio v-for="(i, index) in items" :label="index">{{ i.label }}</el-radio>
+					</el-radio-group>
+				</el-space>
+			</el-scrollbar>
+			<el-radio-group v-model="mode" class="ml-4">
+				<el-radio label="copy">复制归档</el-radio>
+				<el-radio label="move">移动归档</el-radio>
+			</el-radio-group>
+			<div class="bottom">
+				<el-button plain data-l10n-id="zoturead-cancel" @click="cancel">取消1</el-button>
+				<el-button type="primary" plain data-l10n-id="zoturead-ok" @click="ok">确定1</el-button>
+			</div>
+		</el-space>
+	</div>
+</body>
+</html>
