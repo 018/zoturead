@@ -8,4 +8,4 @@ cd src
 zip -r ../build/zoturead-3.0.0.xpi *
 cd ../build
 
-jq ".addons[\"zoturead@zotero.org\"].updates[0].update_hash = \"sha256:`shasum -a 256 zoturead-3.0.0.xpi | cut -d' ' -f1`\"" ../updates.json.tmpl > updates.json
+jq ".addons[\"zoturead@zotero.org\"].updates[0].update_hash = \"sha256:`shasum -a 256 zoturead-3.0.0.xpi | cut -d' ' -f1`\"" ../updates.json.tmpl > ../updates.json

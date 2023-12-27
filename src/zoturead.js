@@ -80,7 +80,7 @@ Zotero.ZotURead = Object.assign(Zotero.ZotURead, {
 			parent: zotero_collectionmenu,
 		});
 		this.storeAddedElement(menuInitClcCollection);
-		menuInitCollection.hidden = !['collection'].includes(type);
+		menuInitClcCollection.hidden = !['collection'].includes(type);
 
 		let menuSelectnoncollection = Zotero.ZotURead.Doms.createMainWindowXULElement('menuitem', {
 			id: `${root}-uread-selectnoncollection`,
@@ -91,7 +91,7 @@ Zotero.ZotURead = Object.assign(Zotero.ZotURead, {
 			parent: zotero_collectionmenu,
 		});
 		this.storeAddedElement(menuSelectnoncollection);
-		menuInitCollection.hidden = !['library', 'collection', 'search', 'group'].includes(type);
+		menuSelectnoncollection.hidden = !['library', 'collection', 'search', 'group'].includes(type);
 
 		menuseparator.hidden = menuInitCollection.hidden && menuInitClcCollection.hidden && menuSelectnoncollection.hidden;
 
@@ -101,6 +101,7 @@ Zotero.ZotURead = Object.assign(Zotero.ZotURead, {
 		  disabled = true;
 		  menuInitCollection.label = Zotero.ZotURead.L10ns.getString('zoturead-initCollection-label');
 		  menuInitClcCollection.label = Zotero.ZotURead.L10ns.getString('zoturead-initClcCollection-label');
+		  Zotero.ZotURead.Logger.ding();
 		} else {
 		  let collection = Zotero.getMainWindow().ZoteroPane.getSelectedCollection();
 		  if (collection) {
@@ -115,6 +116,8 @@ Zotero.ZotURead = Object.assign(Zotero.ZotURead, {
 			  menuInitClcCollection.label = Zotero.ZotURead.L10ns.getString('zoturead-initClcCollection-label');
 			}
 		  } else {
+			menuInitCollection.label = Zotero.ZotURead.L10ns.getString('zoturead-initCollection-label');
+			menuInitClcCollection.label = Zotero.ZotURead.L10ns.getString('zoturead-initClcCollection-label');
 			disabled = true
 		  }
 		}
@@ -190,71 +193,56 @@ Zotero.ZotURead = Object.assign(Zotero.ZotURead, {
 
 		if (!Zotero.getMainWindow().document.getElementById('zotero-itemmenu-zoturead')) {
 			let zotero_itemmenu_uread = Zotero.getMainWindow().MozXULElement.parseXULToFragment(`
-				<menu id="zotero-itemmenu-zoturead" data-l10n-id="zoturead-label">
-					<menupopup id="zotero-itemmenu-zoturead-menupopup">
-						<menuitem
-							id="zotero-itemmenu-zoturead-embody"
-							class="single-select-book"
-							data-l10n-id="zoturead-embody-label"
-							oncommand="Zotero.ZotURead.uRead.embody()"></menuitem>
-						<menuitem
-							id="zotero-itemmenu-zoturead-refresh"
-							data-l10n-id="zoturead-refresh-label"
-							oncommand="Zotero.ZotURead.uRead.refresh()"></menuitem>
-						<menuitem
-							id="zotero-itemmenu-zoturead-openaschrome"
-							data-l10n-id="zoturead-openaschrome-label"
-							oncommand="Zotero.ZotURead.uRead.openaschrome()"></menuitem>
-
-						<menuseparator></menuseparator>
-
-						<menuitem
-							id="zotero-itemmenu-zoturead-clcinfo"
-							class="single-select-book"
-							data-l10n-id="zoturead-clcinfo-label"
-							oncommand="Zotero.ZotURead.uRead.clcinfo()"></menuitem>
-						<menuitem
-							id="zotero-itemmenu-zoturead-subjectinfo"
-							class="single-select-book"
-							data-l10n-id="zoturead-subjectinfo-label"
-							oncommand="Zotero.ZotURead.uRead.subjectinfo()"></menuitem>
-						<menuitem
-							id="zotero-itemmenu-zoturead-publisherinfo"
-							class="single-select-book"
-							data-l10n-id="zoturead-publisherinfo-label"
-							oncommand="Zotero.ZotURead.uRead.publisherinfo()"></menuitem>
-
-						<menuseparator></menuseparator>
-
-						<menuitem
-							id="zotero-itemmenu-zoturead-translate"
-							data-l10n-id="zoturead-translate-label"
-							oncommand="Zotero.ZotURead.uRead.translate()"></menuitem>
-						<menuitem
-							id="zotero-itemmenu-zoturead-restoretranslate"
-							class="single-select-book"
-							data-l10n-id="zoturead-restoretranslate-label"
-							oncommand="Zotero.ZotURead.uRead.restoretranslate()"></menuitem>
-
-						<menuseparator></menuseparator>
-
-						<menuitem
-							id="zotero-itemmenu-zoturead-catalogue-compare.add"
-							data-l10n-id="zoturead-catalogue-compare-add-label"
-							oncommand="Zotero.ZotURead.uRead.addCatalogueCompare()"></menuitem>
-						<menuitem
-							id="zotero-itemmenu-zoturead-catalogue-compare.add"
-							data-l10n-id="zoturead-catalogue-compare-start-label"
-							oncommand="Zotero.ZotURead.uRead.startCatalogueCompare()"></menuitem>
-
-						<menuseparator></menuseparator>
-
-						<menuitem
-							id="zotero-itemmenu-zoturead-home"
-							data-l10n-id="zoturead-label"
-							oncommand="Zotero.ZotURead.uRead.home()"></menuitem>
-					</menupopup>
-				</menu>`).getElementById('zotero-itemmenu-zoturead');
+			<menu id="zotero-itemmenu-zoturead" data-l10n-id="zoturead-label">
+				<menupopup id="zotero-itemmenu-zoturead-menupopup">
+					<menuitem id="zotero-itemmenu-zoturead-embody" class="single-select-book" data-l10n-id="zoturead-embody-label"
+						oncommand="Zotero.ZotURead.uRead.embody()">
+					</menuitem>
+					<menuitem id="zotero-itemmenu-zoturead-refresh" data-l10n-id="zoturead-refresh-label"
+						oncommand="Zotero.ZotURead.uRead.refresh()">
+					</menuitem>
+					<menuitem id="zotero-itemmenu-zoturead-openaschrome" data-l10n-id="zoturead-openaschrome-label"
+						oncommand="Zotero.ZotURead.uRead.openaschrome()">
+					</menuitem>
+			
+					<menuseparator></menuseparator>
+			
+					<menuitem id="zotero-itemmenu-zoturead-clcinfo" class="single-select-book" data-l10n-id="zoturead-clcinfo-label"
+						oncommand="Zotero.ZotURead.uRead.clcinfo()">
+					</menuitem>
+					<menuitem id="zotero-itemmenu-zoturead-subjectinfo" class="single-select-book"
+						data-l10n-id="zoturead-subjectinfo-label" oncommand="Zotero.ZotURead.uRead.subjectinfo()">
+					</menuitem>
+					<menuitem id="zotero-itemmenu-zoturead-publisherinfo" class="single-select-book"
+						data-l10n-id="zoturead-publisherinfo-label" oncommand="Zotero.ZotURead.uRead.publisherinfo()">
+					</menuitem>
+			
+					<menuseparator></menuseparator>
+			
+					<menuitem id="zotero-itemmenu-zoturead-translate" data-l10n-id="zoturead-translate-label"
+						oncommand="Zotero.ZotURead.uRead.translate()">
+					</menuitem>
+					<menuitem id="zotero-itemmenu-zoturead-restoretranslate" class="single-select-book"
+						data-l10n-id="zoturead-restoretranslate-label" oncommand="Zotero.ZotURead.uRead.restoretranslate()">
+					</menuitem>
+			
+					<menuseparator></menuseparator>
+			
+					<menuitem id="zotero-itemmenu-zoturead-catalogue-compare.add"
+						data-l10n-id="zoturead-catalogue-compare-add-label" oncommand="Zotero.ZotURead.uRead.addCatalogueCompare()">
+					</menuitem>
+					<menuitem id="zotero-itemmenu-zoturead-catalogue-compare.add"
+						data-l10n-id="zoturead-catalogue-compare-start-label"
+						oncommand="Zotero.ZotURead.uRead.startCatalogueCompare()">
+					</menuitem>
+			
+					<menuseparator></menuseparator>
+			
+					<menuitem id="zotero-itemmenu-zoturead-home" data-l10n-id="zoturead-label"
+						oncommand="Zotero.ZotURead.uRead.home()">
+					</menuitem>
+				</menupopup>
+			</menu>`).getElementById('zotero-itemmenu-zoturead');
 			zotero_itemmenu.appendChild(zotero_itemmenu_uread);
 			this.storeAddedElement(zotero_itemmenu_uread);
 		}
@@ -441,7 +429,7 @@ Zotero.ZotURead = Object.assign(Zotero.ZotURead, {
 									tooltiptext="需要安装油猴插件今日优读才能实现点击自动搜索。"
 									oncommand="Zotero.ZotURead.Searcher.searchEBook('yabook')"></menuitem>
 								<menuitem
-									id="zotero-itemmenu-zoturead-pullcatalogue"
+									id="zotero-itemmenu-zoturead-search-ebook-weread"
 									data-l10n-id="zoturead-weread-label"
 									class="single-select-book"
 									oncommand="Zotero.ZotURead.Tools.weread()"></menuitem>
@@ -552,6 +540,7 @@ Zotero.ZotURead = Object.assign(Zotero.ZotURead, {
 						<menuitem
 							id="zotero-itemmenu-zoturead-fixsubject"
 							data-l10n-id="zoturead-fixsubject-label"
+							class="single-select-book"
 							oncommand="Zotero.ZotURead.Tools.fixsubject()"></menuitem>
 
 						<menuseparator></menuseparator>
@@ -559,6 +548,7 @@ Zotero.ZotURead = Object.assign(Zotero.ZotURead, {
 						<menuitem
 							id="zotero-itemmenu-zoturead-archive"
 							data-l10n-id="zoturead-archive-label"
+							class="single-select-book"
 							oncommand="Zotero.ZotURead.Tools.archive()"></menuitem>
 
 						<!--<menuitem
@@ -640,23 +630,23 @@ Zotero.ZotURead = Object.assign(Zotero.ZotURead, {
 		  for (const element of item.getCreators()) {
 			author = element.lastName.replace(/\[.*\]/g, '').replace(/\(.*\)/g, '')
 	  
-			var authorSubmenu = Zotero.getMainWindow().document.createElement('menuitem')
+			var authorSubmenu = Zotero.getMainWindow().document.createXULElement('menuitem')
 			authorSubmenu.setAttribute('author', author)
 			authorSubmenu.setAttribute('class', 'dynamic-author')
 			authorSubmenu.setAttribute('label', `${!Zotero.ZotURead.uRead.checkUrl(url) ? '搜索 ' : '查看 '}${author} 信息`)
 			authorSubmenu.onclick = function (e) { Zotero.ZotURead.uRead.authorsinfo(e.target.getAttribute('author')) }.bind(this)
 			Zotero.getMainWindow().document.getElementById('zotero-itemmenu-zoturead-publisherinfo').before(authorSubmenu)
 	  
-			Zotero.getMainWindow().document.querySelectorAll('.series').forEach(function (element) {
-			  let id = element.getAttribute('id')
+			Zotero.getMainWindow().document.querySelectorAll('.series').forEach(function (ele) {
+			  let id = ele.getAttribute('id')
 			  if (id) {
 				let searcher = id.replace('zotero-itemmenu-zoturead-search-', '').replace('-series', '')
-				let authorSubmenu = Zotero.getMainWindow().document.createElement('menuitem')
+				let authorSubmenu = Zotero.getMainWindow().document.createXULElement('menuitem')
 				authorSubmenu.setAttribute('author', author)
 				authorSubmenu.setAttribute('class', 'dynamic-author')
 				authorSubmenu.setAttribute('label', `搜索 ${author} 书籍`)
 				authorSubmenu.onclick = function (e) { Zotero.ZotURead.Searcher.searchAuthor(searcher, e.target.getAttribute('author')) }.bind(this)
-				element.before(authorSubmenu)
+				ele.before(authorSubmenu)
 			  }
 			}.bind(this))
 		  }
@@ -664,7 +654,7 @@ Zotero.ZotURead = Object.assign(Zotero.ZotURead, {
 		  Zotero.getMainWindow().document.getElementById('zotero-itemmenu-zoturead-openaschrome').hidden = !Zotero.isMac || !Zotero.File.pathToFile('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome').exists()
 		}
 		
-		if (onlyRegular && onlySimple) {
+		if (onlySimple) {
 		  let locationdisabled = items[0].getCollections().length === 0;
 		  Zotero.getMainWindow().document.getElementById('zotero-itemmenu-zoturead-location').disabled = locationdisabled
 		  if (!locationdisabled) {
@@ -984,7 +974,6 @@ Zotero.ZotURead = Object.assign(Zotero.ZotURead, {
 	},
 
 	refreshStandaloneMenuPopup() {
-		this.createStandaloneMenu();
 	},
 
 	// #####################

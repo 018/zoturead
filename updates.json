@@ -1,0 +1,18 @@
+{
+  "addons": {
+    "zoturead@zotero.org": {
+      "updates": [
+        {
+          "version": "3.0.0",
+          "update_link": "https://github.com/018/zoturead/releases/latest/download/zoturead-3.0.0.xpi",
+          "update_hash": "sha256:590444e7984804aded81ffd94d5eefcbb2f82b59cd5d18436d4812c1a0a29fd6",
+          "applications": {
+            "zotero": {
+              "strict_min_version": "6.999"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
