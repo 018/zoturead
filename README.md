@@ -54,4 +54,4 @@ zoturead是Zotero的大杂烩插件。
 
 [MIT](./LICENSE)
 
-Copyright (c) 2020-2023 018
+Copyright (c) 2020-2024 018

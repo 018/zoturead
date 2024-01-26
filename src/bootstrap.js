@@ -25,28 +25,28 @@ async function startup({ id, version, rootURI }) {
         ["content", "zoturead", rootURI + "chrome/content/"]
     ]);
 
-	Zotero.ZotURead.Utils.afterRun(() => {
-		const data = {
-			"app_name": id,
-			"app_version": version,
-			"machineid": Zotero.ZotURead.Utils.getCurrentUsername(),
-			"machinename": Zotero.version,
-			"os": Zotero.platform + `${Services.appinfo.is64Bit ? '(64bits)' : ''}`,
-			"os_version": '0'
-		};
-		Zotero.ZotURead.Logger.log('submit to 018soft.com', data);
-		Zotero.HTTP.request(
-			"POST",
-			'http://api.018soft.com/authorization/anon/client/submit',
-			{
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(data),
-				timeout: 30000
-			}
-		);
-	}, 50);
+	// Zotero.ZotURead.Utils.afterRun(() => {
+	// 	const data = {
+	// 		"app_name": id,
+	// 		"app_version": version,
+	// 		"machineid": Zotero.ZotURead.Utils.getCurrentUsername(),
+	// 		"machinename": Zotero.version,
+	// 		"os": Zotero.platform + `${Services.appinfo.is64Bit ? '(64bits)' : ''}`,
+	// 		"os_version": '0'
+	// 	};
+	// 	Zotero.ZotURead.Logger.log('submit to 018soft.com', data);
+	// 	Zotero.HTTP.request(
+	// 		"POST",
+	// 		'http://api.018soft.com/authorization/anon/client/submit',
+	// 		{
+	// 			headers: {
+	// 				'Content-Type': 'application/json'
+	// 			},
+	// 			body: JSON.stringify(data),
+	// 			timeout: 30000
+	// 		}
+	// 	);
+	// }, 50);
 	
 	Services.scriptloader.loadSubScript(rootURI + 'zoturead-include.js', { id, version, rootURI });
 	Zotero.ZotURead.Logger.log("loadSubScript zoturead-include.js");

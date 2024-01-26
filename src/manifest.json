@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "ZotURead",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"description": "今日优读（http://uread.today/），主要搭建一个知识平台以及读书辅助工具，提供书籍搜索，中图分类和学科搜索。",
 	"homepage_url": "https://github.com/018/zoturead",
 	"author": "018",
